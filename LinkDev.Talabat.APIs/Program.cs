@@ -33,27 +33,36 @@ namespace LinkDev.Talabat.APIs
 
             var app = webApplicationBuilder.Build();
 
-           using  var Scope =  app.Services.CreateAsyncScope();
-                  var Services = Scope.ServiceProvider;
-                  var dbContext = Services.GetRequiredService<StoreContext>();
-                   // ask runtime enviroment  for an object from "StoreContext" Service explicitly.
-                    
-                  var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+            #region Update DataBase and Data Seeding
 
-            try 
+            using var Scope = app.Services.CreateAsyncScope();
+            var Services = Scope.ServiceProvider;
+            var dbContext = Services.GetRequiredService<StoreContext>();
+            // ask runtime enviroment  for an object from "StoreContext" Service explicitly.
+
+            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+
+            try
             {
                 var PendingMigrations = dbContext.Database.GetPendingMigrations(); // Get Pending Migrations.
-                //we can use MigrateAsync direct but time consum
+                //we can use MigrateAsync direct but time consuming for GetPendingMigrations is less time consuming than checking the database for pending migrations using MigrateAsync.
 
+                
 
                 if (PendingMigrations.Any())
-                    await  dbContext.Database.MigrateAsync(); // Update Database 
+                    await dbContext.Database.MigrateAsync(); // Update Database 
+
+                await StoreContextSeed.SeedAsync(dbContext);
+
+
             }
             catch (Exception ex)
             {
                 var logger = LoggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "An error occurred during applying the migratings.");
+                logger.LogError(ex, "An error occurred during applying the migratings or the data seeding.");
             }
+
+            #endregion
 
             #region Configure Kestrel Middlewares
 
