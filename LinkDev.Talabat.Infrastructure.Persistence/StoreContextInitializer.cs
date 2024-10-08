@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence
 {
-    internal class StoreContextInitializer(StoreContext _dbContext) : IStoreContextInitializer
+    public class StoreContextInitializer(StoreContext _dbContext) : IStoreContextInitializer
     {
        
 

@@ -61,6 +61,9 @@ namespace LinkDev.Talabat.APIs
 
             //app.UseAuthorization(); 
 
+            app.UseStaticFiles(); // to allow kestrel to serve the requests that ask for any static file like from wwwroot.
+                                  // enable static file serving for the current request path {current : wwwroot path}
+
             app.MapControllers();
 
             #endregion
