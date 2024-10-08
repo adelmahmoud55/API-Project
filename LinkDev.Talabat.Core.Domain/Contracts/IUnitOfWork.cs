@@ -9,10 +9,16 @@ namespace LinkDev.Talabat.Core.Domain.Contracts
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
-        public IGenericRepository<Product, int> ProductRepsoitory { get; }
-        public IGenericRepository<ProductBrand, int> BrandRepsoitory { get; }
-        public IGenericRepository<ProductCategory, int> CategoryRepsoitory { get; }
+        //public IGenericRepository<Product, int> ProductRepsoitory { get; }
+        //public IGenericRepository<ProductBrand, int> BrandRepsoitory { get; }
+        //public IGenericRepository<ProductCategory, int> CategoryRepsoitory { get; }
 
-        Task<int> CompleteAsync()
+
+
+        IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>() // generic on method level cuz i need it on this method only 
+            where TEntity : BaseEntity<TKey>
+            where TKey : IEquatable<TKey>;
+
+        Task<int> CompleteAsync();
     }
 }
