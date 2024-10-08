@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Domain.Contracts
+namespace LinkDev.Talabat.Core.Domain.Contracts.Persistence
 {
     public interface IUnitOfWork : IAsyncDisposable
     {
@@ -16,7 +16,7 @@ namespace LinkDev.Talabat.Core.Domain.Contracts
 
 
         IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>() // generic on method level cuz i need it on this method only 
-            where TEntity : BaseEntity<TKey>
+            where TEntity : BaseAuditableEntity<TKey>
             where TKey : IEquatable<TKey>;
 
         Task<int> CompleteAsync();
