@@ -10,9 +10,9 @@ namespace LinkDev.Talabat.APIs.Services
         public string UserId  { get ;}
 
 
-        public LoggedInUserService(IHttpContextAccessor? httpContextAccessor) // this inteface contain the http context to get the user id from the token
+        public LoggedInUserService(/*IHttpContextAccessor? httpContextAccessor*/) // this inteface contain the http context to get the user id from the token
         {
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
 
 
             // This line retrieves the user ID from the token sent in the request's auth header.
