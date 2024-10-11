@@ -35,7 +35,9 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddApplicationServices(); // Register Application Services To DI Container.
 
-            //webApplicationBuilder.Services.AddScoped(typeof(IHttpContextAccessor),typeof(HttpContextAccessor));
+            //webApplicationBuilder.Services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
+            webApplicationBuilder.Services.AddHttpContextAccessor(); // IHttpContextAccessor depend on another service , so u have to use this method , not only register the IHttpContextAccessor as above 
+
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register LoggedInUserService To DI Container.
 
             #endregion

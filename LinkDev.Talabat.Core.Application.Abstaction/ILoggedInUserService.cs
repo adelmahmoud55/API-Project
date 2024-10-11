@@ -8,6 +8,6 @@ namespace LinkDev.Talabat.Core.Application.Abstaction
 {
     public interface ILoggedInUserService
     {
-        string UserId { get; }
+        string? UserId { get; }
     }
 }
