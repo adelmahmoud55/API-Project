@@ -14,19 +14,9 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
         where TKey : IEquatable<TKey>
     {
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool withTracking = false)
-        {
-            if (typeof(TEntity) == typeof(Product))
-            {
-                 return (IEnumerable<TEntity>) (withTracking? await DbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category).ToListAsync() :
-                 await DbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category).AsNoTracking().ToListAsync());
-            }
-
-            return withTracking? await DbContext.Set<TEntity>().ToListAsync() : 
+            => withTracking? await DbContext.Set<TEntity>().ToListAsync() : 
                 await DbContext.Set<TEntity>().AsNoTracking().ToListAsync();
-        }
-
-
-
+        
         //if(withTracking)
         // {
         //   return await  _dbContext.Set<TEntity>().ToListAsync();
@@ -38,8 +28,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
 
         public async Task<TEntity?> GetAsync(TKey id)
         {
-            if (typeof(TEntity) == typeof(Product))
-               return await DbContext.Set<Product>().Where(p => p.Id.Equals(id)).Include(P => P.Brand).Include(P => P.Category).FirstOrDefaultAsync() as TEntity;
+            //if (typeof(TEntity) == typeof(Product))
+            //   return await DbContext.Set<Product>().Where(p => p.Id.Equals(id)).Include(P => P.Brand).Include(P => P.Category).FirstOrDefaultAsync() as TEntity;
 
             return await DbContext.Set<TEntity>().FindAsync(id);
         }
