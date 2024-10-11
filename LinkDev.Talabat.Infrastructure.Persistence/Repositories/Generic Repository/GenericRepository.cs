@@ -62,7 +62,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
 
         private  IQueryable<TEntity> ApplySpecification( ISpecification<TEntity, TKey> spec)
         {
-            return SpecificationsEvaluator<TEntity, TKey>.GetQuery(DbContext.Set<TEntity>(), spec);
+            return SpecificationsEvaluator<TEntity, TKey>.GetQuery(DbContext.Set<TEntity>(), spec); //specifcation design pattern
         }
 
 

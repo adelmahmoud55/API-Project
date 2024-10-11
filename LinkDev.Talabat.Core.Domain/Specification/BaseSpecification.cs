@@ -21,13 +21,13 @@ namespace LinkDev.Talabat.Core.Domain.Specification
         
 
 
-        public BaseSpecification() //used with get all enrities
+        protected BaseSpecification(Expression<Func<TEntity, bool>>? CriteriaExpression) //used with get all enrities
         {
-            //Criteria = null;
+            Criteria = CriteriaExpression;
             //Includes = new List<Expression<Func<TEntity, object>>>();// intialized in the property New()
         }
 
-        public BaseSpecification(TKey id) //used with Speifc entity
+        protected BaseSpecification(TKey id) //used with Speifc entity
         {
             Criteria = E => E.Id.Equals(id);
             //Includes = new List<Expression<Func<TEntity, object>>>(); // intialized in the property new()
