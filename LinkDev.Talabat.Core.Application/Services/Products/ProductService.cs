@@ -13,34 +13,24 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Application.Services.Products
 {
-    internal class ProductService : IProductService
+    internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
-
-
         public async Task<IEnumerable<BrandDto>> GetBrandsAsync()
-            => _mapper.Map<IEnumerable<BrandDto>>(await _unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync());
+            => mapper.Map<IEnumerable<BrandDto>>(await unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync());
 
 
 
         public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync()
-            => _mapper.Map<IEnumerable<CategoryDto>>(await _unitOfWork.GetRepository<ProductCategory, int>().GetAllAsync());
+            => mapper.Map<IEnumerable<CategoryDto>>(await unitOfWork.GetRepository<ProductCategory, int>().GetAllAsync());
 
 
         public async Task<ProductToReturnDto> GetProductAsync(int id)
         {
             var specs = new ProductWithBrandAndCategorySpecifications(id);
 
-            var product = await _unitOfWork.GetRepository<Product, int>().GetWithSpecAsync(specs);
+            var product = await unitOfWork.GetRepository<Product, int>().GetWithSpecAsync(specs);
 
-            var mappedProduct = _mapper.Map<ProductToReturnDto>(product);
+            var mappedProduct = mapper.Map<ProductToReturnDto>(product);
 
             return mappedProduct;
         }
@@ -50,9 +40,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         {
             var specs = new ProductWithBrandAndCategorySpecifications();
 
-            var products = await _unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs);
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs);
 
-            var mappedProducts = _mapper.Map<IEnumerable<ProductToReturnDto>>(products);
+            var mappedProducts = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
 
             return mappedProducts;
         }
