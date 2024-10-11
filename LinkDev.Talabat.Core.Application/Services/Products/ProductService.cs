@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstaction.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Products;
 using LinkDev.Talabat.Core.Application.Products;
 using LinkDev.Talabat.Core.Application.Products.Models;
@@ -24,7 +25,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         public async Task<IEnumerable<CategoryDto>> GetCategoriesAsync()
             => mapper.Map<IEnumerable<CategoryDto>>(await unitOfWork.GetRepository<ProductCategory, int>().GetAllAsync());
 
-
+    
         public async Task<ProductToReturnDto> GetProductAsync(int id)
         {
             var specs = new ProductWithBrandAndCategorySpecifications(id);
@@ -37,15 +38,23 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         }
 
 
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(ProductSepcParams sepcParams)
+        public async Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSepcParams sepcParams)
         {
             var specs = new ProductWithBrandAndCategorySpecifications(sepcParams.Sort, sepcParams.BrandId, sepcParams.CategoryId, sepcParams.PageSize, sepcParams.PageIndex);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs); // IEnumerable<Product> 
 
-            var mappedProducts = mapper.Map<IEnumerable<ProductToReturnDto>>(products); 
+            var data = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
 
-            return mappedProducts;
+
+
+            var countspecs = new ProductWithFilterationForCountSpecifications(sepcParams.BrandId, sepcParams.CategoryId);
+
+            //to get count u need another query , with diff spec  
+            var count = await unitOfWork.GetRepository<Product, int>().GetCountAsync(countspecs); // same object will be used of unitOfWork cuz its the same request, we work with concurrent data structure
+
+            return new Pagination<ProductToReturnDto>(sepcParams.PageSize, sepcParams.PageIndex, count) { Data = data };
+            
         }
     }
 }

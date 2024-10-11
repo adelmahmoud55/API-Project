@@ -17,9 +17,13 @@ namespace LinkDev.Talabat.Core.Domain.Specification
 
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null; // both prodcts are nullable cuz we will sort against one of them
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; } = null;
+
+       
+
         public int Take { get; set; }
         public int Skip { get; set; }
         public bool IsPaginationEnabled { get; set; }
+       
 
         protected BaseSpecification(Expression<Func<TEntity, bool>>? CriteriaExpression) //used with get all enrities
         {
@@ -58,5 +62,7 @@ namespace LinkDev.Talabat.Core.Domain.Specification
             Skip = skip;
             Take = take;
         }
+
+      
     }
 }

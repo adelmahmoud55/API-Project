@@ -57,6 +57,12 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
         }
 
 
+        public async Task<int> GetCountAsync(ISpecification<TEntity, TKey> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
+
+
 
         #region Helpers
 
@@ -64,6 +70,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
         {
             return SpecificationsEvaluator<TEntity, TKey>.GetQuery(DbContext.Set<TEntity>(), spec); //specifcation design pattern
         }
+
+       
 
 
         #endregion

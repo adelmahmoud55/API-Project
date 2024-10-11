@@ -26,5 +26,39 @@ namespace LinkDev.Talabat.Core.Application.Abstaction.Products
             set { pageSize = value > MaxPageSize ? MaxPageSize : value ; }
         }
 
+
+
+
+
+        #region Ask for this 
+
+        //pagination , default first page with 5 items
+        //public int PageIndex
+        //{
+        //    get => pageIndex;
+        //    set => pageIndex = (value < 1) ? 1 : value;
+        //}
+
+        //private const int MaxPageSize = 10;
+
+        //private int pageSize = 5; // default : 5 items per page
+        //private int pageIndex = 1;
+
+        //public int PageSize
+        //{
+        //    get { return pageSize; }
+        //    set
+        //    {
+        //        if (value <= 0)
+        //            pageSize = 0;
+
+        //        else
+
+        //            pageSize = value > MaxPageSize ? MaxPageSize : value;
+        //    }
+        //}
+
+
+        #endregion
     }
 }
