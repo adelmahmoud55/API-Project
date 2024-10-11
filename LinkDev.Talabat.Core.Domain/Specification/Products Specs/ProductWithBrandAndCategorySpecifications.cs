@@ -10,7 +10,7 @@ namespace LinkDev.Talabat.Core.Domain.Specification.Products_Specs
     public class ProductWithBrandAndCategorySpecifications : BaseSpecification<Product, int>
     {
         // this object is created via this constructor ,will be used for building the query that will be get all products
-        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId) :
+        public ProductWithBrandAndCategorySpecifications(string? sort, int? brandId, int? categoryId, int pageSize ,int PageIndex) :
             base(
 
                    P =>
@@ -47,7 +47,15 @@ namespace LinkDev.Talabat.Core.Domain.Specification.Products_Specs
                     break;
             }
 
+            /// we make the pagination after filtering and sorting
+            /// (skip ,take)
+            /// total products = 18 ,
+            /// page size = 5
+            /// page index = 3
+            ///paging get to the closest number that can divide the page index = 20/5 = 4 , so we will have 4 pages ,every page contain 5 items, and the last page will have 3 items
+            /// skip = (3-1) * 5 = 10
 
+            AddPagination(pageSize * (PageIndex - 1)  , pageSize);
 
 
         }

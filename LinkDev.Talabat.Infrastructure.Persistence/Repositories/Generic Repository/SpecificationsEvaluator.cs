@@ -39,6 +39,9 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
                 query = query.OrderBy(spec.OrderBy);
            
 
+            if(spec.IsPaginationEnabled)
+                query = query.Skip(spec.Skip).Take(spec.Take);
+
             // query =  _dbContext.Set<Product>().Where( P => P.Id == 1).OrderBy(P => P.Price);
 
             query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression));

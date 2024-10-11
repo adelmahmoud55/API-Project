@@ -18,8 +18,14 @@ namespace LinkDev.Talabat.Core.Domain.Contracts
     
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } // both prodcts are nullable cuz we will sort against one of them
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; }
-      
-    
-       //if we will use then by , it will be list of expressions
+
+
+        //if we will use then by , it will be list of expressions
+
+
+        //pagination
+        public int Take { get; set; }
+        public int Skip { get; set; }
+        public bool IsPaginationEnabled { get; set; }
     }
 }

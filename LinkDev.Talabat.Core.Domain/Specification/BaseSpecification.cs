@@ -17,9 +17,9 @@ namespace LinkDev.Talabat.Core.Domain.Specification
 
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null; // both prodcts are nullable cuz we will sort against one of them
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; } = null;
-
-        
-
+        public int Take { get; set; }
+        public int Skip { get; set; }
+        public bool IsPaginationEnabled { get; set; }
 
         protected BaseSpecification(Expression<Func<TEntity, bool>>? CriteriaExpression) //used with get all enrities
         {
@@ -38,7 +38,7 @@ namespace LinkDev.Talabat.Core.Domain.Specification
         private protected virtual void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression)
         {
             OrderBy = orderByExpression;
-            
+
         }
 
         private protected virtual void AddOrderByDesc(Expression<Func<TEntity, object>> orderByDescExpression)
@@ -49,7 +49,14 @@ namespace LinkDev.Talabat.Core.Domain.Specification
 
         private protected virtual void AddIncludes() //to be reached by the derived classes , and to inherit it as private
         {
-           
+
+        }
+
+        private protected virtual void AddPagination(int skip, int take)
+        {
+            IsPaginationEnabled = true;
+            Skip = skip;
+            Take = take;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstaction.Products;
 using LinkDev.Talabat.Core.Application.Products;
 using LinkDev.Talabat.Core.Application.Products.Models;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
@@ -36,9 +37,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         }
 
 
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(string? sort, int? brandId, int? categoryId)
+        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(ProductSepcParams sepcParams)
         {
-            var specs = new ProductWithBrandAndCategorySpecifications(sort, brandId, categoryId);
+            var specs = new ProductWithBrandAndCategorySpecifications(sepcParams.Sort, sepcParams.BrandId, sepcParams.CategoryId, sepcParams.PageSize, sepcParams.PageIndex);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs); // IEnumerable<Product> 
 

@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstaction;
+using LinkDev.Talabat.Core.Application.Abstaction.Products;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,10 +13,11 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
     public class ProductsController(IServiceManager serviceManager) : ApiControllerBase
     {
 
-        [HttpGet] // Get: api/Products
-        public async Task<ActionResult> GetProducts(string? sort, int? brandId, int? categoryId)
+        // get endpoints takes parameters from query string only{?id=1 from url } , lw htst2blhom k paramter lw7do tmam , lw hts2bl k object lazm tst5dm [FromQuery] attribute,3shan t3rf ef enk htst2bl el object k query string
+        [HttpGet] // Get: api/Products   
+        public async Task<ActionResult> GetProducts([FromQuery]ProductSepcParams SepcParams) 
         {
-            var products = await serviceManager.ProductService.GetProductsAsync(sort, brandId, categoryId);
+            var products = await serviceManager.ProductService.GetProductsAsync(SepcParams);
             return Ok(products);
         }
 
