@@ -36,9 +36,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         }
 
 
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
+        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(string? sort)
         {
-            var specs = new ProductWithBrandAndCategorySpecifications();
+            var specs = new ProductWithBrandAndCategorySpecifications(sort);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs); // IEnumerable<Product> 
 

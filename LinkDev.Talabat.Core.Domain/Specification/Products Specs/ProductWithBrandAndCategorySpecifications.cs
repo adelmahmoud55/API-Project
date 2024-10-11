@@ -10,13 +10,39 @@ namespace LinkDev.Talabat.Core.Domain.Specification.Products_Specs
     public class ProductWithBrandAndCategorySpecifications : BaseSpecification<Product, int>
     {
         // this object is created via this constructor ,will be used for building the query that will be get all products
-        public ProductWithBrandAndCategorySpecifications() : base() // to return all products
+        public ProductWithBrandAndCategorySpecifications(string? sort) : base() // to return all products
         {
             AddIncludes();
 
+            AddOrderBy(p => p.Name); // to sort the products by name
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                switch (sort)
+                {
+                    case "nameDesc":
+                        AddOrderByDesc(p => p.Name);/* OrderBy = p => p.Name;*/
+                        break;
+
+                    case "priceAsc":
+                        AddOrderBy(p => p.Price);
+                        break;
+
+                    case "priceDesc":
+                        AddOrderByDesc(p => p.Price);
+                        break;
+
+                    default:
+                        AddOrderBy(p => p.Name);
+                        break;
+                }
+            }
+
+
+
         }
 
-      
+
 
 
         // this object is created via this constructor ,will be used for building the query that will be get specific product
@@ -26,10 +52,13 @@ namespace LinkDev.Talabat.Core.Domain.Specification.Products_Specs
         }
 
 
-        private void AddIncludes()
+        private protected override void AddIncludes()
         {
+            base.AddIncludes();
+
             Includes.Add(p => p.Brand!);
             Includes.Add(p => p.Category!);
+
         }
     }
 

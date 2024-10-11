@@ -22,14 +22,30 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
                 query = query.Where(spec.Criteria);
             }
 
+
             // query =  _dbContext.Set<Product>().Where( P => P.Id == 1); 
             // Includes expressions
             // 1. P => P.Brand
             // 2. P => P.Category
             //...
 
+
+            //u have to add order by after where condition , cuz to filter the data first then sort it, as sql priority in the query execution
+            // we have to check the OrderByDesc first cuz the default implementation of OrderBy is ascending
+            if (spec.OrderByDesc is not null)
+                query = query.OrderByDescending(spec.OrderByDesc);
+            
+            else if (spec.OrderBy is not null)
+                query = query.OrderBy(spec.OrderBy);
+           
+
+            // query =  _dbContext.Set<Product>().Where( P => P.Id == 1).OrderBy(P => P.Price);
+
             query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression));
 
+
+
+            //query =  _dbContext.Set<Product>().Where( P => P.Id == 1).OrderBy(P => P.Price).Include(P => P.Brand).Include(P => P.Category);
             // query =  _dbContext.Set<Product>().Where( P => P.Id == 1).Include(P => P.Brand);
             // query =  _dbContext.Set<Product>().Where( P => P.Id == 1).Include(P => P.Brand).Include(P => P.Category);
             // w 3ady momkn ykon mn 8er where condition

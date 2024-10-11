@@ -29,7 +29,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
         public async Task<TEntity?> GetAsync(TKey id)
         {
             //if (typeof(TEntity) == typeof(Product))
-            //   return await DbContext.Set<Product>().Where(p => p.Id.Equals(id)).Include(P => P.Brand).Include(P => P.Category).FirstOrDefaultAsync() as TEntity;
+            //   return await DbContext.Set<Product>().Where(p => p.Id.Equals(id)).orderBy(P => p.price).Include(P => P.Brand).Include(P => P.Category).FirstOrDefaultAsync() as TEntity;
 
             return await DbContext.Set<TEntity>().FindAsync(id);
         }
@@ -55,6 +55,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Reposi
         {
             return await ApplySpecification(spec).FirstOrDefaultAsync();
         }
+
+
 
         #region Helpers
 
