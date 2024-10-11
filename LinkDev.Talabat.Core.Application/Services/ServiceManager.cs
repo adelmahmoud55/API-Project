@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.Core.Application.Services
 
         public ServiceManager(IUnitOfWork unitOfWork,IMapper mapper) 
         {
-           _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, mapper));
+           _productService = new Lazy<IProductService>(() => new ProductService(unitOfWork, mapper)); //no need to register the ProductService in DI container because it is created here.
         }
         public IProductService ProductService => _productService.Value;
     }
