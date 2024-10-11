@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.Core.Application.Mapping
                 .ForMember(d => d.Category, o => o.MapFrom(s => s.Category!.Name))
                 //.ForMember(d => d.PictureUrl, o => o.MapFrom(s => $"{"https://localhost:7248"}{s.PictureUrl}"));
 
-                .ForMember(d => d.PictureUrl, o => o.MapFrom < ProductPictureUrlResolver>());
+                .ForMember(d => d.PictureUrl, o => o.MapFrom< ProductPictureUrlResolver>()); // this generic method is used to resolve the picture url  , and must take an object implementing IValueResolver interface 
         }
     }
 }

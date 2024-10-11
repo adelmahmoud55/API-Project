@@ -40,9 +40,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
         {
             var specs = new ProductWithBrandAndCategorySpecifications();
 
-            var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs);
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs); // IEnumerable<Product> 
 
-            var mappedProducts = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
+            var mappedProducts = mapper.Map<IEnumerable<ProductToReturnDto>>(products); 
 
             return mappedProducts;
         }

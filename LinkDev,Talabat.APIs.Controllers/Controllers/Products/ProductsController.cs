@@ -30,6 +30,8 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
             return Ok(products);
         }
 
+
+        //("brands") to make the route more clear, w tfr2 benha w ben ba2y el routes
         [HttpGet("brands")] // Get: api/Products/brands
         public async Task<ActionResult> GetBrands()
         {
