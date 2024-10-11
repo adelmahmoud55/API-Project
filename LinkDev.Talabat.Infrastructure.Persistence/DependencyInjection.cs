@@ -1,5 +1,7 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts;
+﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
+using LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,12 +18,19 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
         {
             services.AddDbContext<StoreContext>(optionsBuilder =>
             {
-                optionsBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
+                optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(configuration.GetConnectionString("StoreContext"));
             }/*,contextLifetime: ServiceLifetime.Scoped,optionsLifetime: ServiceLifetime.Scoped */);
             
-            services.AddScoped<IStoreContextInitializer, StoreContextInitializer>(); // Register StoreContextInitializer To DI Container.
-            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork)); 
 
+
+
+            services.AddScoped<IStoreContextInitializer, StoreContextInitializer>(); // Register StoreContextInitializer To DI Container.
+
+
+            services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BasedAuditableEntityInterceptor)); // hena enta bt2olo and bst5dm BasedAuditableEntityInterceptor l2no by default hwa byst5dm savechangesinterceptor 
 
             return services;
         }

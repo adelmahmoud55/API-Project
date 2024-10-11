@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Base;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Config.Products
 {
-    internal class ProductConfigurations : BaseEntityConfigurations<Product, int>
+    internal class ProductConfigurations : BaseAuditableEntityConfigurations<Product, int>
     {
         public override void Configure(EntityTypeBuilder<Product> builder)
         {

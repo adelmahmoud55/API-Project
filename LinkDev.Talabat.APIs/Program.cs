@@ -1,5 +1,7 @@
-
+using LinkDev.Talabat.Core.Application;
 using LinkDev.Talabat.APIs.Extensions;
+using LinkDev.Talabat.APIs.Services;
+using LinkDev.Talabat.Core.Application.Abstaction;
 using LinkDev.Talabat.Core.Domain.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
@@ -13,23 +15,30 @@ namespace LinkDev.Talabat.APIs
         public static async Task Main(string[] args)
         {
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
-           
+
 
             #region Configure Services
 
             // Add services to the container.
 
-            webApplicationBuilder.Services.AddControllers(); // Register Required Services By ASP.NET Core Web APIs To Di Container.
+            //AddApplicationPart is used to add the controllers to the DI container. and to tell that the controllers are in the same assembly as the AssemblyInformation class.
+            webApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(LinkDev.Talabat.APIs.Controllers.AssemblyInformation).Assembly); // Register Controllers To DI Container.
+                                                                                                                                                       // Register Required Services By ASP.NET Core Web APIs To Di Container.
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            webApplicationBuilder.Services.AddEndpointsApiExplorer();
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
 
 
-            webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration); 
+            webApplicationBuilder.Services.AddPersistenceServices(webApplicationBuilder.Configuration);
             //DependencyInjection.AddPersistenceServices(webApplicationBuilder.Services, webApplicationBuilder.Configuration); // Register Persistence Services To DI Container.
 
+            webApplicationBuilder.Services.AddApplicationServices(); // Register Application Services To DI Container.
 
+            //webApplicationBuilder.Services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
+            webApplicationBuilder.Services.AddHttpContextAccessor(); // IHttpContextAccessor depend on another service , so u have to use this method , not only register the IHttpContextAccessor as above 
+
+            webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register LoggedInUserService To DI Container.
 
             #endregion
 
@@ -53,6 +62,9 @@ namespace LinkDev.Talabat.APIs
             app.UseHttpsRedirection();
 
             //app.UseAuthorization(); 
+
+            app.UseStaticFiles(); // to allow kestrel to serve the requests that ask for any static file like from wwwroot.
+                                  // enable static file serving for the current request path {current : wwwroot path}
 
             app.MapControllers();
 

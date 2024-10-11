@@ -1,6 +1,6 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts;
+﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
-using LinkDev.Talabat.Infrastructure.Persistence.Repositories;
+using LinkDev.Talabat.Infrastructure.Persistence.Repositories.Generic_Repository;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Concurrent;
@@ -30,7 +30,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
         }
 
         public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
-           where TEntity : BaseEntity<TKey>
+           where TEntity : BaseAuditableEntity<TKey>
            where TKey : IEquatable<TKey>
         {
             // work with doctionary , but with Async programming we use ConcurrentDictionary {thread safe} in case of multiple threads {Concurrent DataStructure } 
