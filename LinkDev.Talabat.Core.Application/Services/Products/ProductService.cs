@@ -40,7 +40,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
 
         public async Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSepcParams sepcParams)
         {
-            var specs = new ProductWithBrandAndCategorySpecifications(sepcParams.Sort, sepcParams.BrandId, sepcParams.CategoryId, sepcParams.PageSize, sepcParams.PageIndex);
+            var specs = new ProductWithBrandAndCategorySpecifications(sepcParams.Sort, sepcParams.BrandId, sepcParams.CategoryId, sepcParams.PageSize, sepcParams.PageIndex, sepcParams.Search);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs); // IEnumerable<Product> 
 
@@ -48,7 +48,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
 
 
 
-            var countspecs = new ProductWithFilterationForCountSpecifications(sepcParams.BrandId, sepcParams.CategoryId);
+            var countspecs = new ProductWithFilterationForCountSpecifications(sepcParams.BrandId, sepcParams.CategoryId, sepcParams.Search);
 
             //to get count u need another query , with diff spec  
             var count = await unitOfWork.GetRepository<Product, int>().GetCountAsync(countspecs); // same object will be used of unitOfWork cuz its the same request, we work with concurrent data structure

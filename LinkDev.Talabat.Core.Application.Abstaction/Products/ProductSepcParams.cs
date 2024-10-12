@@ -13,6 +13,15 @@ namespace LinkDev.Talabat.Core.Application.Abstaction.Products
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
 
+        private string? search;
+
+        public string? Search
+        {
+            get { return search; }
+            set { search = value?.ToUpper(); }
+        }
+
+
         //pagination , default first page with 5 items
         public int PageIndex { get; set; } = 1; // default : first page
 
