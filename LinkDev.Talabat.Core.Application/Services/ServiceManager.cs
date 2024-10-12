@@ -33,7 +33,14 @@ When the ProductService property is accessed, the Value property of the Lazy<IPr
 This lazy initialization approach can be useful in scenarios where creating the object is expensive or requires certain dependencies.It ensures that the object is only created when it is actually needed, improving performance and resource utilization.*
      
      
-     
+     servie manager hwa ms2ol 3n kol el services f ana lma bro7 a3ml object mno hwa gwa prop lkol service , f lw enta sh8al  Immediate Initialization y3ni mn 8er lazy
+    once enk create el service manger object hyb2a 3ndk objects l kol el services { product , order , user , ...etc } ,w momkn akon msh m7tag eni ast5dmhom kolhom 
+    lakn with lazy initialziation hyb2a 3ndk object l service ely enta 3ayzha bs lma t3ml access 3leha
+    bm3na enta create el object mn service manger , ay service gwah hy7slha object creation lma enta t2ol , service manager.ProductService 3mlt access leha
+    f hwa by3ml deferred for creating the object until it is actually needed ,
+    w dh kwis mn n7yt : service may not always be required.
+                         You want to optimize resource usage.
+                         You have complex initialization logic that can be deferred. 
      
      
      */
