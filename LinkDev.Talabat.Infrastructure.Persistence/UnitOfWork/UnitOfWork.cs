@@ -48,7 +48,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 
 
             return (IGenericRepository<TEntity, TKey>)_repositories.GetOrAdd(typeof(TEntity).Name, new GenericRepository<TEntity, TKey>(_dbContext)); //This approach ensures that only one repository object is created per entity type, even if multiple threads are accessing the GetRepository method concurrently. The concurrent dictionary provides thread-safe access and modification of the dictionary, preventing any race conditions or conflicts
-
+            // (IGenericRepository<TEntity, TKey>) this casting happen cuz we return the dictionary contains generric repostories object as object type, so u have to cast it back to the specifc generic repository type 
         }
 
 

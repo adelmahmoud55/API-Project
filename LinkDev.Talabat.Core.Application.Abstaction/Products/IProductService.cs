@@ -1,4 +1,6 @@
-﻿using LinkDev.Talabat.Core.Application.Products.Models;
+﻿using LinkDev.Talabat.Core.Application.Abstaction.Comman;
+using LinkDev.Talabat.Core.Application.Abstaction.Products;
+using LinkDev.Talabat.Core.Application.Products.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace LinkDev.Talabat.Core.Application.Products
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductToReturnDto>> GetProductsAsync();
+        Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSepcParams SepcParams);
 
         Task<ProductToReturnDto> GetProductAsync(int id);
 
