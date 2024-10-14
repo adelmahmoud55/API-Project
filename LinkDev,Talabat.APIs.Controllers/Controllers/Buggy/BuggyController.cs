@@ -1,4 +1,5 @@
-﻿using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
+﻿using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,11 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("notfound")] // Get: api/Buggy/notfound
         public IActionResult GetNotFoundRequest() 
         {
-            return NotFound(new { statusCode = 404, message = "not found" }); // 404 , better not to be anonymous object , cuz its used alot
+            // second way for handling error is to throw exception , and use middleware to handle it
+            // throw new Exception("test exception");
+
+            //helper method to return not found response
+            return NotFound(new ApiResponse(404)); // 404 , better not to be anonymous object , cuz its used alot
         }
 
 
@@ -30,7 +35,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest")] // Get: api/Buggy/badrequest
         public IActionResult GetBadRequest() 
         {
-            return BadRequest(new { statusCode = 400, message = "bad request" }); // 400
+            return BadRequest(new ApiResponse(400)); // 400
         }
 
 
@@ -45,7 +50,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("unauthorized")] // Get: api/Buggy/unauthorized
         public IActionResult GetUnauthorizedError() 
         {
-            return Unauthorized(new { statusCode = 401, message = "unauthorized" }); // 401
+            return Unauthorized(new ApiResponse(401)); // 401
         }
 
 

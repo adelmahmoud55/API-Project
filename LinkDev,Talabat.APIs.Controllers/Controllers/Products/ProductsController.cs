@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Core.Application.Abstaction;
+﻿using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.Core.Application.Abstaction;
 using LinkDev.Talabat.Core.Application.Abstaction.Products;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +28,7 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
             var products = await serviceManager.ProductService.GetProductAsync(id);
 
             if (products == null)
-                return NotFound(new {statusCode =404, message="not found"});
-            
+                return NotFound(new ApiResponse(404,$"the product with Id:{id} is not found")); // ApiResponse is standard response 
             return Ok(products);
         }
 
