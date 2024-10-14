@@ -22,13 +22,13 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
             return Ok(products);
         }
 
-        [HttpGet("{id:int}")] // Get: api/Products/id
+        [HttpGet("{id}")] // Get: api/Products/id
         public async Task<ActionResult> GetProduct(int id)
         {
             var products = await serviceManager.ProductService.GetProductAsync(id);
 
             if (products == null)
-                return NotFound(new ApiResponse(404,$"the product with Id:{id} is not found")); // ApiResponse is standard response 
+                return NotFound(new ApiResponse(404, $"the product with Id:{id} is not found")); // ApiResponse is standard response 
             return Ok(products);
         }
 

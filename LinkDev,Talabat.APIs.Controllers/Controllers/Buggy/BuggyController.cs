@@ -35,6 +35,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest")] // Get: api/Buggy/badrequest
         public IActionResult GetBadRequest() 
         {
+
             return BadRequest(new ApiResponse(400)); // 400
         }
 

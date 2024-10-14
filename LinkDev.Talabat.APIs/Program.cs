@@ -6,6 +6,8 @@ using LinkDev.Talabat.Core.Domain.Contracts;
 using LinkDev.Talabat.Infrastructure.Persistence;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using LinkDev.Talabat.APIs.Controllers.Errors;
 
 namespace LinkDev.Talabat.APIs
 {
@@ -22,10 +24,52 @@ namespace LinkDev.Talabat.APIs
             // Add services to the container.
 
             //AddApplicationPart is used to add the controllers to the DI container. and to tell that the controllers are in the same assembly as the AssemblyInformation class.
-            webApplicationBuilder.Services.AddControllers().AddApplicationPart(typeof(LinkDev.Talabat.APIs.Controllers.AssemblyInformation).Assembly); // Register Controllers To DI Container.
-                                                                                                                                                       // Register Required Services By ASP.NET Core Web APIs To Di Container.
+            webApplicationBuilder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options => // this handling the validation errors in the model binding across the application.
+                {
+                    options.SuppressModelStateInvalidFilter = false; // to disable the default behavior of returning 400 bad request when the model is invalid.
+                    options.InvalidModelStateResponseFactory = actioncontext =>
+                    {
+                        var errors = actioncontext.ModelState //modelState is a dictionary of key value pairs , key is the name of the property and value is the error message, contains all the properties for the endpoint that has been called.
+                            .Where(e => e.Value!.Errors.Count > 0) // get all the properties that have errors.
+                            .SelectMany(x => x.Value!.Errors) // get all the errors for each property.
+                            .Select(x => x.ErrorMessage); // get the error message.
 
-                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                        var errorResponse = new ApiValidationErrorResponse("Validation Error") 
+                        {
+                            Errors = errors
+                        };
+
+                        return new BadRequestObjectResult(errorResponse); //we cannot use hellepr method like BadRequest() or NotFound() because we are not in the controller. there is no [ApiController] attribute.
+                    };
+                })
+                .AddApplicationPart(typeof(LinkDev.Talabat.APIs.Controllers.AssemblyInformation).Assembly); // Register Controllers To DI Container.
+                                                                                                           // Register Required Services By ASP.NET Core Web APIs To Di Container.
+
+                
+           ///webApplicationBuilder.Services.Configure<ApiBehaviorOptions>(options =>
+           ///{
+           ///    options.SuppressModelStateInvalidFilter = false;
+           ///    options.InvalidModelStateResponseFactory = actionContext =>
+           ///    {
+           ///        var errors = actionContext.ModelState
+           ///            .Where(e => e.Value.Errors.Count > 0)
+           ///            .SelectMany(x => x.Value.Errors)
+           ///            .Select(x => x.ErrorMessage).ToArray();
+           ///
+           ///
+           ///
+           ///        var errorResponse = new ApiValidationErrorResponse("Validation Error") 
+           ///        {
+           ///            Errors = errors
+           ///        };
+           ///        return new BadRequestObjectResult(errorResponse);
+           ///    };
+           ///
+           ///});    
+           
+
+           /// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
 
