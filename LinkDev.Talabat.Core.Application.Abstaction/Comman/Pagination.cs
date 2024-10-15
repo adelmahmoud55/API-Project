@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Core.Application.Products.Models;
+﻿using LinkDev.Talabat.Core.Application.Models.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Products.Models
+namespace LinkDev.Talabat.Core.Application.Models.Products
 {
-    public class CategoryDto
+    public class BrandDto
     {
         public int Id { get; set; }
         public required string Name { get; set; }

@@ -2,7 +2,7 @@
 using LinkDev.Talabat.Core.Application.Abstaction.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Products;
 using LinkDev.Talabat.Core.Application.Products;
-using LinkDev.Talabat.Core.Application.Products.Models;
+using LinkDev.Talabat.Core.Application.Models.Products;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Core.Domain.Specification;

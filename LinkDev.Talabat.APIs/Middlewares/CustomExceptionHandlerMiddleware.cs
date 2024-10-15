@@ -1,6 +1,6 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Controllers.Exceptions;
-using LinkDev.Talabat.Core.Application.Products.Models;
+using LinkDev.Talabat.Core.Application.Models.Products;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text.Json;
