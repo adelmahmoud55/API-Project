@@ -40,6 +40,14 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
                 // Logic Excuted with the Response.
 
+
+                // we already handle the not found using middleware app.UseStatusCodePagesWithReExecute("/Error/{0}");, so we dont need this code
+                //if (httpContext.Response.StatusCode == (int) HttpStatusCode.NotFound)
+                //{
+                //   var response = new ApiResponse((int)HttpStatusCode.NotFound,$"the request endpoint: {httpContext.Request.Path} is not found");
+                //    await httpContext.Response.WriteAsync(response.ToString());
+                //}
+
             }
             catch (Exception ex)
             {
