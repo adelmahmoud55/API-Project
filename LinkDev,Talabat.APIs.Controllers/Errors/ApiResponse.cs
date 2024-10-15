@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System.Text.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace LinkDev.Talabat.APIs.Controllers.Errors
 {
-    public  class ApiResponse
+    public class ApiResponse
     {
 
         public int StatusCode { get; set; }
@@ -31,5 +28,8 @@ namespace LinkDev.Talabat.APIs.Controllers.Errors
                 _ => null // null is the default value for reference types, _ represent the default case in switch statement 
             };
         }
+
+        override public string ToString() => JsonSerializer.Serialize(this, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
     }
 }

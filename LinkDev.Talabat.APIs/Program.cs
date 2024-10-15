@@ -8,6 +8,7 @@ using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.APIs.Middlewares;
 
 namespace LinkDev.Talabat.APIs
 {
@@ -96,11 +97,15 @@ namespace LinkDev.Talabat.APIs
 
             #region Configure Kestrel Middlewares
 
+            app.UseMiddleware<CustomExceptionHandlerMiddleware>(); 
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                //app.UseDeveloperExceptionPage(); this used internally from .net 6 , so no need to add it. means return the exception as a response.
             }
 
             app.UseHttpsRedirection();

@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.APIs.Controllers.Exceptions;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,16 +19,19 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
             // second way for handling error is to throw exception , and use middleware to handle it
             // throw new Exception("test exception");
 
+
+            throw new NotFoundException();
+
             //helper method to return not found response
-            return NotFound(new ApiResponse(404)); // 404 , better not to be anonymous object , cuz its used alot
+            //return NotFound(new ApiResponse(404)); // 404 , better not to be anonymous object , cuz its used alot
         }
 
 
 
         [HttpGet("servererror")] // Get: api/Buggy/servererror
-        public IActionResult GetNotFoundResponse() 
+        public IActionResult GetServerError() 
         {
-            return StatusCode(500, new { statusCode = 500, message = "server error" }); // 500
+            throw new Exception(); // 500
         }
 
 
