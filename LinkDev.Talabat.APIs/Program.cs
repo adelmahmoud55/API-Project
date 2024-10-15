@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Middlewares;
-
+using LinkDev.Talabat.Infrastructure;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -85,6 +85,7 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register LoggedInUserService To DI Container.
 
+            webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
             #endregion
 
             var app = webApplicationBuilder.Build();
@@ -113,7 +114,8 @@ namespace LinkDev.Talabat.APIs
             //to handle not found requests
             app.UseStatusCodePagesWithReExecute("/Error/{0}"); // to redirect the request to the errors controller when the status code is not 200.
 
-            //app.UseAuthorization(); 
+            app.UseAuthorization();
+
 
             app.UseStaticFiles(); // to allow kestrel to serve the requests that ask for any static file like from wwwroot.
                                   // enable static file serving for the current request path {current : wwwroot path}
