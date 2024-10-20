@@ -24,7 +24,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Errors
                 400 => "A bad request, you have made",
                 401 => "Authorized, you are not",
                 404 => "Resource was not found",
-                500 => "Errors are the path to the dark side. Errors lead to anger. Anger leads to hate. Hate leads to career change",
+                500 => "Errors are the path to the dark side. Errors lead to anger. Anger leads to hate. Hate leads to career change", // for the client
                 _ => null // null is the default value for reference types, _ represent the default case in switch statement 
             };
         }

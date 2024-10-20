@@ -32,16 +32,22 @@ namespace LinkDev.Talabat.Core.Application
             services.AddScoped(typeof(IServiceManager),typeof(ServiceManager));
 
 
+
+            // we cannot use AddScoped for BasketService with overload  because it has dependencies that are not registered in the DI container.
             //services.AddScoped(typeof(IBasketService), typeof(BasketService));
             //services.AddScoped(typeof(Func<IBasketService>), typeof(Func<BasketService>));
 
+
+
+            // Custom Instantiation Needs , The DI container's role is to resolve the dependencies.
             services.AddScoped(typeof(Func<IBasketService>), (ServiceProvider) =>
             {
+                // we can use ServiceProvider to get the dependencies that are not registered in the DI container , to help the DI to create the object.
                 var mapper = ServiceProvider.GetRequiredService<IMapper>();
                 var configuration = ServiceProvider.GetRequiredService<IConfiguration>();
                 var basketRepository = ServiceProvider.GetRequiredService<IBasketRepository>();
 
-                return () => new BasketService(basketRepository, mapper, configuration);
+                return () => new BasketService(basketRepository, mapper, configuration); // DI will not create BasketService object , we are creating it here.
             });
 
 

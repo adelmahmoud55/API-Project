@@ -28,7 +28,7 @@ namespace LinkDev.Talabat.Core.Application.Services
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration,Func<BasketService> basketServiceFactory)
+        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration,Func<IBasketService> basketServiceFactory)
         {
 
             _unitOfWork = unitOfWork;

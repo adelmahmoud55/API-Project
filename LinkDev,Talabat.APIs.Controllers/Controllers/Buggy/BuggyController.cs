@@ -1,12 +1,6 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
-using LinkDev.Talabat.APIs.Controllers.Exceptions;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
 {
@@ -20,10 +14,10 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
             // throw new Exception("test exception");
 
 
-            throw new NotFoundException();
+            //throw new NotFoundException();
 
             //helper method to return not found response
-            //return NotFound(new ApiResponse(404)); // 404 , better not to be anonymous object , cuz its used alot
+            return NotFound(new ApiResponse(404)); // 404 , better not to be anonymous object , cuz its used alot
         }
 
 
@@ -47,6 +41,10 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Buggy
         [HttpGet("badrequest/{id}")] // Get: api/Buggy/badrequest/id
         public IActionResult GetValidationError(int id)  // 400
         {
+            // if we will suppress the validatione error model state 
+            // we will use if (!ModelState.IsValid) return BadRequest(new ApiValidationErrorResponse(ModelState)); // 400
+
+
            return Ok(); // this wont be excuted cux we inherit from controllerBase , a factory will be created to handle the request , get from [ApiController] attribute 
         }
 

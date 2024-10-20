@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Exceptions
+namespace LinkDev.Talabat.APIs.Controllers.Exceptions
 {
     public class NotFoundException : ApplicationException
     {
-        public NotFoundException(string name, object key ) 
-            : base($"{name} ({key}) is not found.")
+        public NotFoundException(string name , object key ) 
+            : base($"{name} with ({key}) is not found")
         {
-
         }
     }
 }

@@ -27,8 +27,8 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
         {
             var products = await serviceManager.ProductService.GetProductAsync(id);
 
-            if (products == null)
-                return NotFound(new ApiResponse(404, $"the product with Id:{id} is not found")); // ApiResponse is standard response 
+            //if (products == null)
+            //    return NotFound(new ApiResponse(404, $"the product with Id:{id} is not found")); // ApiResponse is standard response 
             return Ok(products);
         }
 
