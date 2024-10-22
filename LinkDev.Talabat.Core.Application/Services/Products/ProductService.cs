@@ -2,7 +2,7 @@
 using LinkDev.Talabat.Core.Application.Abstaction.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Products;
 using LinkDev.Talabat.Core.Application.Products;
-using LinkDev.Talabat.Core.Application.Products.Models;
+using LinkDev.Talabat.Core.Application.Models.Products;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Core.Domain.Specification;
@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LinkDev.Talabat.APIs.Controllers.Exceptions;
 
 namespace LinkDev.Talabat.Core.Application.Services.Products
 {
@@ -31,6 +32,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Products
             var specs = new ProductWithBrandAndCategorySpecifications(id);
 
             var product = await unitOfWork.GetRepository<Product, int>().GetWithSpecAsync(specs);
+
+            if (product is null)
+                throw new NotFoundException(nameof(Product), id); //this will be handled in the middleware   app.UseStatusCodePagesWithReExecute("/Error/{0}"); 
 
             var mappedProduct = mapper.Map<ProductToReturnDto>(product);
 
