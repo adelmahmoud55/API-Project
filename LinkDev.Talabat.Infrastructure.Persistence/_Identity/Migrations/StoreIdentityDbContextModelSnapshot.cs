@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Persistence._Identity.Migrations
+namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
     partial class StoreIdentityDbContextModelSnapshot : ModelSnapshot

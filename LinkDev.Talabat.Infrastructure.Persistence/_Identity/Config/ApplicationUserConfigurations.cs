@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Core.Domain.Identity;
+﻿using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

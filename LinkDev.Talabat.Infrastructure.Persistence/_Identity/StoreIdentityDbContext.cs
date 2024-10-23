@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Core.Domain.Identity;
+﻿using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity.Config;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Identity
 {
-    internal class StoreIdentityDbContext : IdentityDbContext<ApplicationUser> // we used this overload cuz we only want to decide the type of user we want to use
+    public class StoreIdentityDbContext : IdentityDbContext<ApplicationUser> // we used this overload cuz we only want to decide the type of user we want to use
     {
         public StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> options) 
             : base(options)

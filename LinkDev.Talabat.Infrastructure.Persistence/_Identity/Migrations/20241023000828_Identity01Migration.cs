@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Persistence._Identity.Migrations
+namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 {
     /// <inheritdoc />
     public partial class Identity01Migration : Migration

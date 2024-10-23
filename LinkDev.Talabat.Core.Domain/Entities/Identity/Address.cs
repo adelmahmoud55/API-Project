@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Domain.Identity
+namespace LinkDev.Talabat.Core.Domain.Entities.Identity
 {
     public class Address /*: BaseEntity<int>*/ // we will not use this cuz we will make a new seperate database seprate from store Context
     {

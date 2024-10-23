@@ -1,4 +1,5 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializer;
+using LinkDev.Talabat.Infrastructure.Persistence.Comman;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,22 +11,13 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 {
-    public class StoreDbContextInitializer(StoreDbContext _dbContext) : IStoreContextInitializer
+    internal sealed class StoreDbInitializer(StoreDbContext _dbContext) :DbInitializer(_dbContext), IStoreDbInitializer
     {
 
 
-        public async Task InitializeAsync()
-        {
-            var PendingMigrations = await _dbContext.Database.GetPendingMigrationsAsync(); // Get Pending Migrations.
-                                                                                           //we can use MigrateAsync direct but time consuming for GetPendingMigrations is less time consuming than checking the database for pending migrations using MigrateAsync.
+      
 
-
-
-            if (PendingMigrations.Any())
-                await _dbContext.Database.MigrateAsync(); // Update Database 
-        }
-
-        public async Task SeedAsync()
+        public  override async Task SeedAsync()
         {
             if (!_dbContext.Brands.Any())
             {
@@ -50,7 +42,6 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
                     await _dbContext.SaveChangesAsync();
                 }
             }
-
 
             if (!_dbContext.Products.Any())
             {

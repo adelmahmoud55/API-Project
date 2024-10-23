@@ -11,6 +11,10 @@ using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Core.Application.Models.Products;
+using LinkDev.Talabat.Core.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using LinkDev.Talabat.Infrastructure.Persistence.Identity;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -36,13 +40,13 @@ namespace LinkDev.Talabat.APIs
                         var errors = actioncontext.ModelState //modelState is a dictionary of key value pairs , key is the name of the property and value is the error message, contains all the properties for the endpoint that has been called.
                             .Where(e => e.Value!.Errors.Count > 0) // get all the properties that have errors.
                            .Select(P => new ApiValidationErrorResponse.ValidationError()
-                           { 
-                             Filed = P.Key,
-                             Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
-                           
+                           {
+                               Filed = P.Key,
+                               Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+
                            });
 
-                        var errorResponse = new ApiValidationErrorResponse("Validation Error") 
+                        var errorResponse = new ApiValidationErrorResponse("Validation Error")
                         {
                             Errors = errors
                         };
@@ -94,15 +98,49 @@ namespace LinkDev.Talabat.APIs
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register LoggedInUserService To DI Container.
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
+
+            //webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(); // THis overload add default identity config for the specified user and role types
+            webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>((identityOptions) =>   //this overload to customize the identity options "change config"
+            {
+
+                identityOptions.SignIn.RequireConfirmedAccount = true;
+                identityOptions.SignIn.RequireConfirmedEmail = true;
+                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+
+                identityOptions.Password.RequireDigit = true;
+                identityOptions.Password.RequireLowercase = true;
+                identityOptions.Password.RequireUppercase = true;
+                identityOptions.Password.RequireNonAlphanumeric = true; //$#@%
+                identityOptions.Password.RequiredLength = 8;
+                identityOptions.Password.RequiredUniqueChars = 2; // at least two numbers not repeated in the password.
+
+                identityOptions.User.RequireUniqueEmail = true;
+                //identityOptions.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+
+                identityOptions.Lockout.AllowedForNewUsers = true;
+                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
+            })
+                //here we add data access mechanism.
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();  //If you don’t call .AddEntityFrameworkStores<StoreIdentityDbContext>(), Identity would not know how to store or retrieve its data. Even though services like UserManager and RoleManager are registered, they won’t be able to access the underlying database, and you would need to provide an alternative storage mechanism.
+
+
+
+
             #endregion
 
             var app = webApplicationBuilder.Build();
 
+
+
             #region Update DataBase and Data Seeding
-           
-           await  app.InitializerStoreContextAsync();
-           
+
+            await app.InitializeDbAsync();
+
             #endregion
+
+
 
             #region Configure Kestrel Middlewares
 
@@ -141,7 +179,7 @@ namespace LinkDev.Talabat.APIs
 
 
 
-           
+
         }
     }
 }

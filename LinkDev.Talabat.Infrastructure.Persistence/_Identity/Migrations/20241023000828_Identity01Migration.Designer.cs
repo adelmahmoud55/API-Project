@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Persistence._Identity.Migrations
+namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
     [Migration("20241023000828_Identity01Migration")]
