@@ -13,13 +13,13 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly StoreContext _dbContext;
+        private readonly StoreDbContext _dbContext;
         //private readonly Dictionary<string, object> _repositories;
         private readonly ConcurrentDictionary<string, object> _repositories; // thread safe dictionary , work with async programming 
 
 
 
-        public UnitOfWork(StoreContext dbContext)
+        public UnitOfWork(StoreDbContext dbContext)
         {
             _dbContext = dbContext;
             //_repositories = new Dictionary<string, object>();

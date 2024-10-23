@@ -19,9 +19,10 @@ namespace LinkDev.Talabat.Core.Domain.Identity
 
         public required string Country { get; set; }
 
-        public int UserId { get; set; }
+        // u have to make it unique , 3shan kol address yb2a relate to one user ,cuz by default it will be nullable 3shan ana 3aml el prop 3nd user compsition "optional"
+        public required string UserId { get; set; } // this must be string cuz in the ApplicationUser we inherit from IdentityUser which inherit from IdentityUser<string> so the primary key of user is string
 
-        public required ApplicationUser AppUser { get; set; }
+        public virtual required ApplicationUser User { get; set; }
     }
 }
 

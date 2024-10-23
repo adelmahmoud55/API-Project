@@ -8,16 +8,16 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Infrastructure.Persistence
+namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 {
-    public class StoreContextInitializer(StoreContext _dbContext) : IStoreContextInitializer
+    public class StoreDbContextInitializer(StoreDbContext _dbContext) : IStoreContextInitializer
     {
-       
+
 
         public async Task InitializeAsync()
         {
             var PendingMigrations = await _dbContext.Database.GetPendingMigrationsAsync(); // Get Pending Migrations.
-                                                                               //we can use MigrateAsync direct but time consuming for GetPendingMigrations is less time consuming than checking the database for pending migrations using MigrateAsync.
+                                                                                           //we can use MigrateAsync direct but time consuming for GetPendingMigrations is less time consuming than checking the database for pending migrations using MigrateAsync.
 
 
 
