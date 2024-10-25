@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Products;
+using LinkDev.Talabat.Infrastructure.Persistence._Comman;
 using Microsoft.IdentityModel.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
           //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-          modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
+          modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+              type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreDbContext));
            
         }
 

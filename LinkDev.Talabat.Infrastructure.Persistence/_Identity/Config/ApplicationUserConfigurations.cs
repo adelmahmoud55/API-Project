@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Identity;
+using LinkDev.Talabat.Infrastructure.Persistence._Comman;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Config
 {
+    [DbContextType(typeof(StoreIdentityDbContext))]
     internal class ApplicationUserConfigurations : IEntityTypeConfiguration<ApplicationUser> // hena msh hynf3 a3ml BaseEntity zy StoreContext 3shan el 7 Identity tables mlhomsh BaseEntity wa7d
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)

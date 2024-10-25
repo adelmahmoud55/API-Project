@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
+namespace LinkDev.Talabat.Infrastructure.Persistence._Identity.Migrations
 {
     [DbContext(typeof(StoreIdentityDbContext))]
     partial class StoreIdentityDbContextModelSnapshot : ModelSnapshot
@@ -25,7 +25,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Identity.Address", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Identity.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,23 +35,28 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("Street")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -65,7 +70,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
                     b.ToTable("Addresses", (string)null);
                 });
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -268,11 +273,11 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Identity.Address", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Identity.Address", b =>
                 {
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", "User")
+                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", "User")
                         .WithOne("Address")
-                        .HasForeignKey("LinkDev.Talabat.Core.Domain.Identity.Address", "UserId")
+                        .HasForeignKey("LinkDev.Talabat.Core.Domain.Entities.Identity.Address", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -290,7 +295,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -299,7 +304,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -314,7 +319,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,14 +328,14 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", null)
+                    b.HasOne("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Identity.ApplicationUser", b =>
                 {
                     b.Navigation("Address");
                 });
