@@ -19,8 +19,10 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-          modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+              // using custom attribute, reflection to get the type of the DbContext
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
               type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreDbContext));
            
         }

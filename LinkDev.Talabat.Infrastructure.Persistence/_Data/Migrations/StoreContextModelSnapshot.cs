@@ -79,7 +79,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Products.ProductBrand", b =>
@@ -110,7 +110,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Products.ProductCategory", b =>
@@ -141,7 +141,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("LinkDev.Talabat.Core.Domain.Entities.Products.Product", b =>

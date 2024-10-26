@@ -37,7 +37,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity
 
             
 
-            // using custom attribute
+            // using custom attribute, reflection to get the type of the DbContext
             builder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
                 type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreIdentityDbContext)); // to get only configurations for the Identity Context, and avoid getting other configurations for other contexts
         

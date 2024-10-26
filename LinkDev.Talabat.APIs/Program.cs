@@ -99,32 +99,8 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
-
-            //webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(); // THis overload add default identity config for the specified user and role types
-            webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>((identityOptions) =>   //this overload to customize the identity options "change config"
-            {
-
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-
-                identityOptions.Password.RequireDigit = true;
-                identityOptions.Password.RequireLowercase = true;
-                identityOptions.Password.RequireUppercase = true;
-                identityOptions.Password.RequireNonAlphanumeric = true; //$#@%
-                identityOptions.Password.RequiredLength = 8;
-                identityOptions.Password.RequiredUniqueChars = 2; // at least two numbers not repeated in the password.
-
-                identityOptions.User.RequireUniqueEmail = true;
-                //identityOptions.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-
-                identityOptions.Lockout.AllowedForNewUsers = true;
-                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
-            })
-                //here we add data access mechanism.
-                .AddEntityFrameworkStores<StoreIdentityDbContext>();  //If you don’t call .AddEntityFrameworkStores<StoreIdentityDbContext>(), Identity would not know how to store or retrieve its data. Even though services like UserManager and RoleManager are registered, they won’t be able to access the underlying database, and you would need to provide an alternative storage mechanism.
-
+            webApplicationBuilder.Services.AddIdentityServices(); // Register Identity Services To DI Container.
+           
 
 
 

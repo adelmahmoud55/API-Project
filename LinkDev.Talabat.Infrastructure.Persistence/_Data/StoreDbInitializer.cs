@@ -29,7 +29,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
                     await _dbContext.Set<ProductBrand>().AddRangeAsync(brands);
                     await _dbContext.SaveChangesAsync();
                 }
-            }
+            } // this condition cuz we use seeding for the first time only
 
             if (!_dbContext.Categories.Any())
             {
