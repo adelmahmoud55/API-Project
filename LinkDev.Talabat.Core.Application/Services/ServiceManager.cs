@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using LinkDev.Talabat.Core.Application.Abstaction;
-using LinkDev.Talabat.Core.Application.Abstaction.Basket;
-using LinkDev.Talabat.Core.Application.Basket;
-using LinkDev.Talabat.Core.Application.Products;
+using LinkDev.Talabat.Core.Application.Abstaction.Services;
+using LinkDev.Talabat.Core.Application.Abstaction.Services.Basket;
+using LinkDev.Talabat.Core.Application.Abstaction.Services.Products;
+using LinkDev.Talabat.Core.Application.Services.Basket;
 using LinkDev.Talabat.Core.Application.Services.Products;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructre;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;

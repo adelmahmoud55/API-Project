@@ -1,6 +1,6 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
-using LinkDev.Talabat.Core.Application.Abstaction;
-using LinkDev.Talabat.Core.Application.Abstaction.Products;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Products;
+using LinkDev.Talabat.Core.Application.Abstaction.Services;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;

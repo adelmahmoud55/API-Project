@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Abstaction.Products
+namespace LinkDev.Talabat.Core.Application.Abstaction.Models.Products
 {
     // if we have end point that takes moew than 3  parameters, we can merge them in one class as per clean code
     public class ProductSepcParams
@@ -32,7 +32,7 @@ namespace LinkDev.Talabat.Core.Application.Abstaction.Products
         public int PageSize
         {
             get { return pageSize; }
-            set { pageSize = value > MaxPageSize ? MaxPageSize : value ; }
+            set { pageSize = value > MaxPageSize ? MaxPageSize : value; }
         }
 
 

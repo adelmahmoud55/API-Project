@@ -84,6 +84,8 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
             switch (ex)
             {
+                // u have to care about the order of the exceptions
+
                 case NotFoundException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     httpContext.Response.ContentType = "application/json";
@@ -94,18 +96,39 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     break;
 
 
+                case ValidationException validationException:
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    httpContext.Response.ContentType = "application/json";
+
+                    response = new ApiValidationErrorResponse( ex.Message) { Errors = validationException.Errors };
+
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+
+
                 case BadRequestException:
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     httpContext.Response.ContentType = "application/json";
 
-                    response = new ApiResponse(404, ex.Message);
+                    response = new ApiResponse(400, ex.Message);
+
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+
+                case UnAuthorizedException:
+
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    httpContext.Response.ContentType = "application/json";
+
+                    response = new ApiResponse(401, ex.Message);
 
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
 
 
-                default:
+                default:    
                     // here we handle the system exception, {null reference, divide by zero,....}
 
                     response = _env.IsDevelopment()

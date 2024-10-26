@@ -18,12 +18,14 @@ namespace LinkDev.Talabat.APIs.Extensions
                 identityOptions.SignIn.RequireConfirmedEmail = true;
                 identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
 
-                identityOptions.Password.RequireDigit = true;
-                identityOptions.Password.RequireLowercase = true;
-                identityOptions.Password.RequireUppercase = true;
-                identityOptions.Password.RequireNonAlphanumeric = true; //$#@%
-                identityOptions.Password.RequiredLength = 8;
-                identityOptions.Password.RequiredUniqueChars = 2; // at least two numbers not repeated in the password.
+
+                // best practice to use regular expression to validate the password, in the Registeration page regiterDto
+                //identityOptions.Password.RequireDigit = true;
+                //identityOptions.Password.RequireLowercase = true;
+                //identityOptions.Password.RequireUppercase = true;
+                //identityOptions.Password.RequireNonAlphanumeric = true; //$#@%
+                //identityOptions.Password.RequiredLength = 8;
+                //identityOptions.Password.RequiredUniqueChars = 2; // at least two numbers not repeated in the password.
 
                 identityOptions.User.RequireUniqueEmail = true;
                 //identityOptions.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";

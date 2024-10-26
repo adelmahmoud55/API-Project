@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LinkDev.Talabat.Core.Application.Abstaction.Basket
+namespace LinkDev.Talabat.Core.Application.Abstaction.Services.Basket
 {
     public interface IBasketService
     {
