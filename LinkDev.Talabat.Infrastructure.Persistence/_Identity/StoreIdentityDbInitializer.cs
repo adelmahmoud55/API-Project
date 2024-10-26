@@ -31,6 +31,9 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Identity
 
             // we cannot add the user throwgh _dbcontext object like we did in the StoreDbInitializer ,
             // because the user manager is responsible for hashing the password and adding the user to the database; userManager comes from Identity package
+            // thre main sevices in Identity package are RoleManager and UserManager, sign in manager, and user claims principal factory in the identity package
+            // so we can create the user and add it to the database using the user manager
+            // sp we need to inject the user manager in the StoreIdentityDbInitializer constructor
         }
 
     }

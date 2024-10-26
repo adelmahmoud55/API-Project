@@ -11,7 +11,9 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Comman
 {
     public abstract class DbInitializer(DbContext _dbContext) : IDbInitializer
     {
-        public virtual async Task InitializeAsync()
+
+       
+        public  async Task InitializeAsync()
         {
             var PendingMigrations = await _dbContext.Database.GetPendingMigrationsAsync(); // Get Pending Migrations.
                                                                                            //we can use MigrateAsync direct but time consuming for GetPendingMigrations is less time consuming than checking the database for pending migrations using MigrateAsync.
@@ -22,6 +24,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Comman
                 await _dbContext.Database.MigrateAsync(); // Update Database 
         }
 
+        //SeedAsync is abstract cuz it will be different for each DbInitializer
         public abstract  Task SeedAsync();
        
     }

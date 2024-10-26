@@ -13,12 +13,12 @@ namespace LinkDev.Talabat.APIs.Extensions
             var StoreContextInitializer = Services.GetRequiredService<IStoreDbInitializer>();
             // ask runtime enviroment  for an object from "StoreContext" Service explicitly.
 
-            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>(); 
 
             try
             {
 
-                await StoreContextInitializer.InitializeAsync();
+                await StoreContextInitializer.InitializeAsync();// Update Database
                 await StoreContextInitializer.SeedAsync();
 
 
