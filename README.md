@@ -1,0 +1,3 @@
+
+
+TalabatAPI (OnlineCoffeeShop) is a RESTful API modeled , designed with ASP.NET Core Web API to support seamless food delivery services. This API provides endpoints for handling orders, cafe listings, menu items, and user management, making it easy for front-end applications to integrate. Key functionalities include robust JWT Authentication, a product catalog with search capabilities, a dynamic shopping cart, real-time order tracking, and an admin control panel. Built with C# and Entity Framework Core for data access, it relies on SQL Server for dependable storage, Redis for efficient caching, and includes full API documentation via Swagger. Thorough testing in Postman was conducted to guarantee reliability and usability.
