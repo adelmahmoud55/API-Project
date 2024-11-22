@@ -1,4 +1,6 @@
-﻿using LinkDev.Talabat.Core.Domain.Entities.Identity;
+﻿using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
+using LinkDev.Talabat.Core.Application.Services.Auth;
+using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +38,17 @@ namespace LinkDev.Talabat.APIs.Extensions
             })
                 //here we add data access mechanism(create,update,delete,....) for the identity tables, whya aslun Entityframework 3shan gwaha code EF wlazm t7ddlha hya htklm which DbContext aknk sh8al f el Generic Repository.
                 .AddEntityFrameworkStores<StoreIdentityDbContext>();  //If you don’t call .AddEntityFrameworkStores<StoreIdentityDbContext>(), Identity would not know how to store or retrieve its data. Even though services like UserManager and RoleManager are registered, they won’t be able to access the underlying database, and you would need to provide an alternative storage mechanism, this default implementation is provided by the Entity Framework Core package. we can use AdduserStore or AddRoleStore to use custom store for the user or role tables.
+
+
+            // Factory method 
+            Services.AddScoped(typeof(IAuthService),typeof(AuthService)); //register the AuthService in the DI container, so that it can be injected in the controllers
+            Services.AddScoped(typeof(Func<IAuthService>),(ServiceProvider) =>
+            { 
+             return () => ServiceProvider.GetService<IAuthService>();
+
+            });
+            
+
 
             return Services;
         }

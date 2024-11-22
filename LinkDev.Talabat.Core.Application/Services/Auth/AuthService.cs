@@ -3,9 +3,12 @@ using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +16,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
     // we cannot reach the singin manager service here in core, and we will not use it cuz it use the dotnet way 
     //when i sign in it will generate a token and send it to the client and save it in the cookies storage , but we will use jwt(JSON Web Token) package and we will find the sigin manager
-    internal class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
+    public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
     {
+        
 
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
@@ -80,12 +84,12 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             #endregion
 
             // this will return the user with the token to the client after the user is authenticated 
-            var response =  new UserDto()
+            var response = new UserDto()
             {
                 Id = user.Id,
                 DisplayName = user.DisplayName,
                 Email = user.Email!,
-                Token = "Token" // this for authrization
+                Token = await GenerateTokenAsync(user) // this for authrization
             };
 
 
@@ -117,16 +121,16 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
 
             // this to check if the user is created or not,and meet the requirements of the password, and the email is unique .... or not
-            if (!result.Succeeded) throw new ValidationException() { Errors =  result.Errors.Select(E => E.Description) };
+            if (!result.Succeeded) throw new ValidationException() { Errors = result.Errors.Select(E => E.Description) };
 
 
             // this will return to the client wiht the token
-            var response = new UserDto 
+            var response = new UserDto
             {
                 Id = user.Id,
                 DisplayName = user.DisplayName,
                 Email = user.Email!,
-                Token = "Token"
+                Token = await GenerateTokenAsync(user)
             };
 
             return response;
@@ -134,5 +138,50 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
 
         }
+
+        private async Task<string> GenerateTokenAsync(ApplicationUser user)
+        {
+            // this method for creatind the JWT Token which is consist of header and payload and signature
+
+            // get claims from data base through the user manager
+            var userClaims = await userManager.GetClaimsAsync(user); // we can reach the user claim from the user manager which in the datbase, we have table userclaims momkn akon mdy l user claims mo3yna w hena bgbha
+            var rolesAsClaims = new List<Claim>();
+
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+                rolesAsClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            
+            // Payload : Data ( claims )
+            var claims = new List<Claim>()
+            {
+
+                   // key :               value 
+                new Claim(ClaimTypes.PrimarySid,user.Id),
+                new Claim(ClaimTypes.Email,user.Email!),
+                new Claim(ClaimTypes.GivenName,user.DisplayName!),
+            }
+            .Union(userClaims)
+            .Union(rolesAsClaims);
+
+            // build secret key 
+            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secret"));
+            var signenCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            //  Token Object
+            var tokenObj = new JwtSecurityToken(
+
+                issuer: "TalabatIdentity",
+                audience: "TalabatUsers",
+                expires: DateTime.Now.AddMinutes(10), // registred claims
+                claims: claims, // considered as custimezed claims
+                signingCredentials: signenCredentials // signature of jwt to make sure that the token is not tampered with , validate integrity
+                );
+
+            // Generate Token 
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenObj);
+
+            return token;
+        }
+
     }
 }

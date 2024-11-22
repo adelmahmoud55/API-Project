@@ -39,16 +39,16 @@ namespace LinkDev.Talabat.APIs
                     {
                         var errors = actioncontext.ModelState //modelState is a dictionary of key value pairs , key is the name of the property and value is the error message, contains all the properties for the endpoint that has been called.
                             .Where(e => e.Value!.Errors.Count > 0) // get all the properties that have errors.
-                           .Select(P => new ApiValidationErrorResponse.ValidationError()
+                           .Select(P => new ApiValidationErrorResponse/*.ValidationError*/()
                            {
-                               Filed = P.Key,
+                               //Filed = P.Key,
                                Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
 
                            });
 
                         var errorResponse = new ApiValidationErrorResponse("Validation Error")
                         {
-                            Errors = errors
+                            Errors = errors as IEnumerable<string> 
                         };
 
                         return new BadRequestObjectResult(errorResponse); //we cannot use hellepr method like BadRequest() or NotFound() because we are not in the controller. there is no [ApiController] attribute.
