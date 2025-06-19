@@ -29,7 +29,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Errors
             };
         }
 
-        override public string ToString() => JsonSerializer.Serialize(this, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+        public override  string ToString() => JsonSerializer.Serialize(this, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
     }
 }

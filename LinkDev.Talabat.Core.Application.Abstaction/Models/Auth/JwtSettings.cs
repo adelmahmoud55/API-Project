@@ -11,7 +11,7 @@ namespace LinkDev.Talabat.Core.Application.Abstaction.Models.Auth
         public required string Key { get; set; }
         public required string Audiance { get; set; }
                
-        public required string issuer { get; set; }
+        public required string Issuer { get; set; }
                
         public required double DurationInMinutes { get; set; }
     }

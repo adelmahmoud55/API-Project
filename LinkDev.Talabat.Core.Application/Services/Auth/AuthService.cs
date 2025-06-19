@@ -171,7 +171,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             //  Token Object
             var tokenObj = new JwtSecurityToken(
 
-                issuer: _jwtSettings.issuer,
+                issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audiance,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes), // registred claims
                 claims: claims, // considered as custimezed claims

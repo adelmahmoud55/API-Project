@@ -3,10 +3,14 @@ using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Services.Auth;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace LinkDev.Talabat.APIs.Extensions
 {
@@ -52,8 +56,30 @@ namespace LinkDev.Talabat.APIs.Extensions
              return () => ServiceProvider.GetService<IAuthService>();
 
             });
-            
 
+            Services.AddAuthentication((authenticationOptions) =>
+            {
+                authenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; //default authentication scheme, which is JwtBearer by default.
+                authenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; //default challenge scheme, which is JwtBearer by default.
+
+
+            })
+                .AddJwtBearer(configureOptions =>
+                { //handler for authrization scheme, which is authrization and its the default scheme i ve made it for authentication in the application.
+                    configureOptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        
+
+                        ClockSkew = TimeSpan.Zero, // to disable the default 5 minutes clock skew for the token expiration time, so that the token will expire exactly at the specified time.
+                        ValidIssuer = configuration["jwtSettings:Issuer"],
+                        ValidAudience = configuration["jwtSettings:Audiance"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwtSettings:Key"]!))
+                    };
+                });
 
             return Services;
         }

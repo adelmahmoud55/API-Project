@@ -20,7 +20,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Comman
         {
             if (code == (int)HttpStatusCode.NotFound)
             {
-                var response = new ApiResponse((int)HttpStatusCode.NotFound, $"the request endpoint: {Request.Path} is not found");
+                var response = new ApiResponse((int)HttpStatusCode.NotFound, $"the request endpoint:  is not found");
                 return NotFound(response);
             }
            return StatusCode(code,new ApiResponse(code));

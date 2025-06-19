@@ -137,11 +137,15 @@ namespace LinkDev.Talabat.APIs
             //to handle not found requests
             app.UseStatusCodePagesWithReExecute("/Error/{0}"); // to redirect the request to the errors controller when the status code is not 200.
 
-            app.UseAuthorization();
+            
 
 
             app.UseStaticFiles(); // to allow kestrel to serve the requests that ask for any static file like from wwwroot.
                                   // enable static file serving for the current request path {current : wwwroot path}
+
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 
