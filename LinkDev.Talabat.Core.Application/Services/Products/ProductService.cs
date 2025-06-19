@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.Core.Application.Abstaction.Comman;
-using LinkDev.Talabat.Core.Application.Abstaction.Products;
-using LinkDev.Talabat.Core.Application.Products;
 using LinkDev.Talabat.Core.Application.Models.Products;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
@@ -13,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinkDev.Talabat.APIs.Controllers.Exceptions;
+using LinkDev.Talabat.Core.Application.Abstaction.Services.Products;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Products;
 
 namespace LinkDev.Talabat.Core.Application.Services.Products
 {

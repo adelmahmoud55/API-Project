@@ -1,7 +1,9 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
-using LinkDev.Talabat.Core.Application.Abstaction;
-using LinkDev.Talabat.Core.Application.Abstaction.Products;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Products;
+using LinkDev.Talabat.Core.Application.Abstaction.Services;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,12 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
-{
+{   
     public class ProductsController(IServiceManager serviceManager) : ApiControllerBase
     {
-
-        // get endpoints takes parameters from query string only{?id=1 from url } , lw htst2blhom k paramter lw7do tmam , lw hts2bl k object lazm tst5dm [FromQuery] attribute,3shan t3rf ef enk htst2bl el object k query string
-        [HttpGet] // Get: api/Products   
+        
+        [HttpGet] // Get: api/Products     // get endpoints takes parameters from query string only{?id=1 from url } , lw htst2blhom k paramter lw7do tmam , lw hts2bl k object lazm tst5dm [FromQuery] attribute,3shan t3rf ef enk htst2bl el object k query string
         public async Task<ActionResult> GetProducts([FromQuery]ProductSepcParams SepcParams) 
         {
             var products = await serviceManager.ProductService.GetProductsAsync(SepcParams);
@@ -24,7 +25,7 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
 
         [HttpGet("{id}")] // Get: api/Products/id
         public async Task<ActionResult> GetProduct(int id)
-        {
+        { 
             var products = await serviceManager.ProductService.GetProductAsync(id);
 
             //if (products == null)

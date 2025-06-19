@@ -11,6 +11,10 @@ using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Middlewares;
 using LinkDev.Talabat.Infrastructure;
 using LinkDev.Talabat.Core.Application.Models.Products;
+using LinkDev.Talabat.Core.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using LinkDev.Talabat.Infrastructure.Persistence.Identity;
 namespace LinkDev.Talabat.APIs
 {
     public class Program
@@ -35,16 +39,16 @@ namespace LinkDev.Talabat.APIs
                     {
                         var errors = actioncontext.ModelState //modelState is a dictionary of key value pairs , key is the name of the property and value is the error message, contains all the properties for the endpoint that has been called.
                             .Where(e => e.Value!.Errors.Count > 0) // get all the properties that have errors.
-                           .Select(P => new ApiValidationErrorResponse.ValidationError()
-                           { 
-                             Filed = P.Key,
-                             Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
-                           
+                           .Select(P => new ApiValidationErrorResponse/*.ValidationError*/()
+                           {
+                               //Filed = P.Key,
+                               Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+
                            });
 
-                        var errorResponse = new ApiValidationErrorResponse("Validation Error") 
+                        var errorResponse = new ApiValidationErrorResponse("Validation Error")
                         {
-                            Errors = errors
+                            Errors = errors as IEnumerable<string> 
                         };
 
                         return new BadRequestObjectResult(errorResponse); //we cannot use hellepr method like BadRequest() or NotFound() because we are not in the controller. there is no [ApiController] attribute.
@@ -94,15 +98,25 @@ namespace LinkDev.Talabat.APIs
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register LoggedInUserService To DI Container.
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration); // Register Identity Services To DI Container.
+           
+
+
+
             #endregion
 
             var app = webApplicationBuilder.Build();
 
+
+
             #region Update DataBase and Data Seeding
-           
-           await  app.InitializerStoreContextAsync();
-           
+
+            await app.InitializeDbAsync();
+
             #endregion
+
+
 
             #region Configure Kestrel Middlewares
 
@@ -123,11 +137,15 @@ namespace LinkDev.Talabat.APIs
             //to handle not found requests
             app.UseStatusCodePagesWithReExecute("/Error/{0}"); // to redirect the request to the errors controller when the status code is not 200.
 
-            app.UseAuthorization();
+            
 
 
             app.UseStaticFiles(); // to allow kestrel to serve the requests that ask for any static file like from wwwroot.
                                   // enable static file serving for the current request path {current : wwwroot path}
+
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.MapControllers();
 
@@ -141,7 +159,7 @@ namespace LinkDev.Talabat.APIs
 
 
 
-           
+
         }
     }
 }
