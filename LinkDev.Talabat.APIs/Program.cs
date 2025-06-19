@@ -99,7 +99,7 @@ namespace LinkDev.Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
-            webApplicationBuilder.Services.AddIdentityServices(); // Register Identity Services To DI Container.
+            webApplicationBuilder.Services.AddIdentityServices(webApplicationBuilder.Configuration); // Register Identity Services To DI Container.
            
 
 

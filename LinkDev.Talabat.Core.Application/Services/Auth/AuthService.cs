@@ -3,6 +3,7 @@ using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
     // we cannot reach the singin manager service here in core, and we will not use it cuz it use the dotnet way 
     //when i sign in it will generate a token and send it to the client and save it in the cookies storage , but we will use jwt(JSON Web Token) package and we will find the sigin manager
-    public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
+    public class AuthService(IOptions<JwtSettings>jwtSettings,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
     {
-
+        private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
@@ -164,15 +165,15 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             .Union(rolesAsClaims);
 
             // build secret key 
-            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secretyour-256-bit-secretyour-256-bit-secretyour-256-bit-secret")); // lazm el parameter bta3 el getbytes eli htktbo feh lma yt7wl by2a aktr mn 256 bit 3shan kda krrnah
+            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key)); // lazm el parameter bta3 el getbytes eli htktbo feh lma yt7wl by2a aktr mn 256 bit 3shan kda krrnah
             var signenCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
             //  Token Object
             var tokenObj = new JwtSecurityToken(
 
-                issuer: "TalabatIdentity",
-                audience: "TalabatUsers",
-                expires: DateTime.Now.AddMinutes(10), // registred claims
+                issuer: _jwtSettings.issuer,
+                audience: _jwtSettings.Audiance,
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes), // registred claims
                 claims: claims, // considered as custimezed claims
                 signingCredentials: signenCredentials // signature of jwt to make sure that the token is not tampered with , validate integrity
                 );

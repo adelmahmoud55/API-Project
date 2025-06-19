@@ -1,17 +1,22 @@
-﻿using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
+﻿using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Services.Auth;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using LinkDev.Talabat.Infrastructure.Persistence.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
 namespace LinkDev.Talabat.APIs.Extensions
 {
     public static class IdentityExtensions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection Services)
+        public static IServiceCollection AddIdentityServices(this IServiceCollection Services,IConfiguration configuration)
         {
+
+            Services.Configure<JwtSettings>(configuration.GetSection("jwtSettings"));
+
             //Services.AddIdentity<ApplicationUser, IdentityRole>(); // THis overload add default identity config for the specified user and role types
             Services.AddIdentity<ApplicationUser, IdentityRole>((identityOptions) =>   //this overload to customize the identity options "change config"
             {
