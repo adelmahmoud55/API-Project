@@ -18,7 +18,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
     //when i sign in it will generate a token and send it to the client and save it in the cookies storage , but we will use jwt(JSON Web Token) package and we will find the sigin manager
     public class AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
     {
-        
+
 
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
@@ -57,7 +57,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             #endregion
 
 
-            if (!result.Succeeded) throw new UnauthorizedAccessException("Invalid Login.");
+            if (!result.Succeeded) throw new UnAuthorizedException("Invalid Login.");
 
             #region Authentication 
 
@@ -150,7 +150,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             var roles = await userManager.GetRolesAsync(user);
             foreach (var role in roles)
                 rolesAsClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
-            
+
             // Payload : Data ( claims )
             var claims = new List<Claim>()
             {
@@ -164,7 +164,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             .Union(rolesAsClaims);
 
             // build secret key 
-            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secret"));
+            var SymmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secretyour-256-bit-secretyour-256-bit-secretyour-256-bit-secret")); // lazm el parameter bta3 el getbytes eli htktbo feh lma yt7wl by2a aktr mn 256 bit 3shan kda krrnah
             var signenCredentials = new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
             //  Token Object

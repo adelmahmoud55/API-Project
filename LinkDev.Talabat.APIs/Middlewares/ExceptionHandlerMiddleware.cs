@@ -116,6 +116,8 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
+                // // lw kont b throw UnauthorizedAccessException  yb2a kan lazm t call hna el built in //case UnauthorizedAccessException , lakn e7na sh8alen custom
+                //case UnauthorizedAccessException:
                 case UnAuthorizedException:
 
                     httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
@@ -125,6 +127,8 @@ namespace LinkDev.Talabat.APIs.Middlewares
 
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
+
+
 
 
 
