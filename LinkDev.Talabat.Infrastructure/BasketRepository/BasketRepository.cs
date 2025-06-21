@@ -14,9 +14,9 @@ namespace LinkDev.Talabat.Infrastructure.BasketRepository
     {
         private readonly IDatabase _database;
 
-        public BasketRepository(IConnectionMultiplexer redis)
+        public BasketRepository(/*IConnectionMultiplexer redis*/)
         {
-            _database = redis.GetDatabase();
+            //_database = redis.GetDatabase();
             
         }
 
