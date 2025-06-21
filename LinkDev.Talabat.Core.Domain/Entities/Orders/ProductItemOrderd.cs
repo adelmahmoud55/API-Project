@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Entities.Orders
 {
-    public class ProductItemOrder
+    public class ProductItemOrderd
     {
-        public ProductItemOrder(int productId, string productName, string pictureUrl)
-        {
-            ProductId = productId;
-            ProductName = productName;
-            PictureUrl = pictureUrl;
-        }
-
+     
         public int ProductId { get; set; }
         public required string ProductName { get; set; }
        
