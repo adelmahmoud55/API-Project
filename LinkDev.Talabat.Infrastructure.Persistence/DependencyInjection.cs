@@ -36,7 +36,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
             services.AddScoped<IStoreDbInitializer, StoreDbInitializer>(); // Register StoreContextInitializer To DI Container.
 
 
-            services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BasedAuditableEntityInterceptor)); // hena enta bt2olo and bst5dm BasedAuditableEntityInterceptor l2no by default hwa byst5dm savechangesinterceptor  
+           /* services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BasedAuditableEntityInterceptor));*/ // hena enta bt2olo and bst5dm BasedAuditableEntityInterceptor l2no by default hwa byst5dm savechangesinterceptor  
 
 
             #endregion

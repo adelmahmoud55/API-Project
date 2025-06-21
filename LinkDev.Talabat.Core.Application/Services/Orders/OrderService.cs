@@ -68,7 +68,15 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 
             var address = mapper.Map<Address>(order.ShippingAddress);
 
-            //4. Create Order
+
+
+            // 5. Get Delivery Method
+
+            var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAsync(order.DeliveryMethodId);
+
+
+
+            //6. Create Order
 
             var orderToCreate = new Order()
             {
@@ -76,12 +84,17 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
                 ShippingAddress = address,
                 Items = orderItems,
                 Subtotal = subtotal,
-                DeliveryMethodId = order.DeliveryMethodId,
+                DeliveryMethod = deliveryMethod,
             };
 
             await unitOfWork.GetRepository<Order, int>().AddAsync(orderToCreate);
 
-            //5. save to database
+
+
+
+
+
+            //7. save to database
 
             var created  = await unitOfWork.CompleteAsync() > 0;  // three rows will affected of we have order with two order items , two rows for items , one for order
 
