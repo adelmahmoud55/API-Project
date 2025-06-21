@@ -13,6 +13,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using LinkDev.Talabat.Core.Application.Abstaction.Services.Orders;
+using LinkDev.Talabat.Core.Application.Services.Orders;
 
 namespace LinkDev.Talabat.Core.Application
 {
@@ -55,6 +57,20 @@ namespace LinkDev.Talabat.Core.Application
                 return () => ServiceProvider.GetRequiredService<IBasketService>();
             
             });
+
+            //register ORDER SERVICE
+
+            services.AddScoped(typeof(IOrderService), typeof(OrderService));
+
+            // register factory for the func<IorderService>
+            services.AddScoped(typeof(Func<IOrderService>), (ServiceProvider) =>
+            {
+             
+                return () => ServiceProvider.GetRequiredService<IOrderService>();
+
+            });
+
+
 
 
             return services;

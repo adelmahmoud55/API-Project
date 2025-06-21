@@ -1,5 +1,6 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Basket;
+using LinkDev.Talabat.Core.Application.Abstaction.Services.Orders;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Products;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace LinkDev.Talabat.Core.Application.Abstaction.Services
 {
     public interface IServiceManager
     {
+        // readonly properties for each service interface
+        public IOrderService   OrderService { get;  }
         public IProductService ProductService { get; }
 
         public IBasketService BasketService { get; }

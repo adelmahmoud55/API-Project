@@ -25,3 +25,4 @@ namespace LinkDev.Talabat.Core.Domain.Entities.Orders
 
     }
 }
+    

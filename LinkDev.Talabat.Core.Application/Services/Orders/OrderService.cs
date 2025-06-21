@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.APIs.Controllers.Exceptions;
 using LinkDev.Talabat.Core.Application.Abstaction.Models.Orders;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Orders;
@@ -6,9 +7,11 @@ using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
+using LinkDev.Talabat.Core.Domain.Specification.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,20 +92,33 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
 
         }
 
-        public Task<OrderToReturnDto> GetOrderByIdAsync(string buyerEmail, int orderId)
+        public async Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+            var orderSpecs = new OrderSpecifications(buyerEmail);
+
+            var orders = await unitOfWork.GetRepository<Order,int>().GetAllWithSpecAsync(orderSpecs);
+
+            return mapper.Map<IEnumerable<OrderToReturnDto>>(orders);
         }
 
-        public Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync()
+        public async Task<OrderToReturnDto> GetOrderByIdAsync(string buyerEmail, int orderId)
         {
-            throw new NotImplementedException();
+           var orderSpecs = new OrderSpecifications(buyerEmail, orderId);
+
+            var order =await  unitOfWork.GetRepository<Order, int>().GetWithSpecAsync(orderSpecs);
+          
+            if (order is null ) throw new NotFoundException(nameof(Order), orderId);
+
+            return mapper.Map<OrderToReturnDto>(order);
+        }
+
+        public async Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync()
+        {
+            var deliveryMethods = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync();
+
+            return mapper.Map<IEnumerable<DeliveryMethodDto>>(deliveryMethods);
         }
 
 
-        public Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string buyerEmail)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
