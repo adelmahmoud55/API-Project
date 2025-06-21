@@ -30,7 +30,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.UnitOfWork
         }
 
         public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
-           where TEntity : BaseAuditableEntity<TKey>
+           where TEntity : BaseEntity<TKey>
            where TKey : IEquatable<TKey>
         {
             // work with doctionary , but with Async programming we use ConcurrentDictionary {thread safe} in case of multiple threads {Concurrent DataStructure } 

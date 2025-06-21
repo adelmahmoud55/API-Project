@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace LinkDev.Talabat.Core.Domain.Specification
 {
     public abstract class BaseSpecification<TEntity, TKey> : ISpecification<TEntity, TKey>
-         where TEntity : BaseAuditableEntity<TKey>
+         where TEntity : BaseEntity<TKey>
         where TKey : IEquatable<TKey>
     {
         public Expression<Func<TEntity, bool>>? Criteria { get; set; } = null;

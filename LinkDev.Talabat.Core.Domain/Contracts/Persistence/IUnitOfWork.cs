@@ -16,7 +16,7 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Persistence
 
 
         IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>() // generic on method level cuz i need it on this method only 
-            where TEntity : BaseAuditableEntity<TKey>
+            where TEntity : BaseEntity<TKey>
             where TKey : IEquatable<TKey>;
 
         Task<int> CompleteAsync();
