@@ -32,7 +32,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
 
 
 
-            services.AddScoped<AuditInterceptor>(); 
+            services.AddScoped(typeof(AuditInterceptor)); 
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
 
