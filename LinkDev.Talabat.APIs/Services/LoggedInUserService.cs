@@ -7,7 +7,7 @@ namespace LinkDev.Talabat.APIs.Services
     {
         private readonly IHttpContextAccessor? _httpContextAccessor;
 
-        public string? UserId  { get ;}
+        public string? UserId  { get; set; }
 
 
         public LoggedInUserService(IHttpContextAccessor? httpContextAccessor) // this inteface contain the http context to get the user id from the token

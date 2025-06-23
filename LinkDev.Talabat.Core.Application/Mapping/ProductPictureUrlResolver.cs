@@ -16,7 +16,7 @@ namespace LinkDev.Talabat.Core.Application.Mapping
 
         public string? Resolve(Product source, ProductToReturnDto destination, string? destMember, ResolutionContext context)
         {
-            if(!string.IsNullOrWhiteSpace(source.PictureUrl))
+            if(!string.IsNullOrEmpty(source.PictureUrl))
                 // here we are making the base url of the api dynamic by getting it from the appsettings.json file, which is changed from environment to another
                 return $"{configuration["Urls:ApiBaseUrl"]}/{source.PictureUrl}";
 

@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Contracts.Persistence.DbInitializer;
+using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Infrastructure.Persistence.Comman;
 using LinkDev.Talabat.Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
@@ -11,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 {
-    internal sealed class StoreDbInitializer(StoreDbContext _dbContext) :DbInitializer(_dbContext), IStoreDbInitializer
+    internal sealed class StoreDbInitializer(StoreDbContext _dbContext) : DbInitializer(_dbContext), IStoreDbInitializer
     {
 
 
-      
 
-        public  override async Task SeedAsync()
+
+        public override async Task SeedAsync()
         {
             if (!_dbContext.Brands.Any())
             {
-                var brandsData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/Data/Seeds/brands.json");
+                var brandsData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/_Data/Seeds/brands.json");
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
                 if (brands?.Count > 0) /*brands is not null && brands.Count > 0*/
@@ -33,7 +34,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 
             if (!_dbContext.Categories.Any())
             {
-                var categoriesData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/Data/Seeds/categories.json");
+                var categoriesData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/_Data/Seeds/categories.json");
                 var categories = JsonSerializer.Deserialize<List<ProductCategory>>(categoriesData);
 
                 if (categories?.Count > 0)
@@ -45,7 +46,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
 
             if (!_dbContext.Products.Any())
             {
-                var productsData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/Data/Seeds/products.json");
+                var productsData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/_Data/Seeds/products.json");
                 var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
                 if (products?.Count > 0)
@@ -54,6 +55,21 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data
                     await _dbContext.SaveChangesAsync();
                 }
             }
+
+            if (!_dbContext.DeliveryMethod.Any())
+            {
+                var deliveryMethodData = await File.ReadAllTextAsync("../LinkDev.Talabat.Infrastructure.Persistence/_Data/Seeds/delivery.json");
+                var deliverMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodData);
+
+                if (deliverMethods?.Count > 0)
+                {
+                    await _dbContext.Set<DeliveryMethod>().AddRangeAsync(deliverMethods);
+                    await _dbContext.SaveChangesAsync();
+                }
+
+            }
         }
+
     }
 }
+

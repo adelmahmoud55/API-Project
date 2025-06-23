@@ -22,12 +22,17 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
         {
             #region Store DbContext
 
-            services.AddDbContext<StoreDbContext>(optionsBuilder =>
+            services.AddDbContext<StoreDbContext>((serviceProvider,optionsBuilder )=>
              {
                  optionsBuilder
                  .UseLazyLoadingProxies()
-                 .UseSqlServer(configuration.GetConnectionString("StoreContext"));
+                 .UseSqlServer(configuration.GetConnectionString("StoreContext"))
+                 .AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>()); // Register AuditInterceptor To DI Container.
              }/*,contextLifetime: ServiceLifetime.Scoped,optionsLifetime: ServiceLifetime.Scoped */);
+
+
+
+            services.AddScoped(typeof(AuditInterceptor)); 
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
 
@@ -36,7 +41,7 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
             services.AddScoped<IStoreDbInitializer, StoreDbInitializer>(); // Register StoreContextInitializer To DI Container.
 
 
-            services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BasedAuditableEntityInterceptor)); // hena enta bt2olo and bst5dm BasedAuditableEntityInterceptor l2no by default hwa byst5dm savechangesinterceptor  
+           /* services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BasedAuditableEntityInterceptor));*/ // hena enta bt2olo and bst5dm BasedAuditableEntityInterceptor l2no by default hwa byst5dm savechangesinterceptor  
 
 
             #endregion

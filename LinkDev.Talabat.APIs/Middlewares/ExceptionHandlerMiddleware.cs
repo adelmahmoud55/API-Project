@@ -3,6 +3,7 @@ using LinkDev.Talabat.APIs.Controllers.Errors;
 using LinkDev.Talabat.APIs.Controllers.Exceptions;
 using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Application.Models.Products;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text.Json;
@@ -73,12 +74,12 @@ namespace LinkDev.Talabat.APIs.Middlewares
                 #endregion
 
 
-                await HnadleExceptionAsync(httpContext, ex);
+                await HandleExceptionAsync(httpContext, ex);
 
             }
         }
 
-        private async Task HnadleExceptionAsync(HttpContext httpContext, Exception ex)
+        private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
         {
             ApiResponse response;
 
@@ -101,7 +102,15 @@ namespace LinkDev.Talabat.APIs.Middlewares
                     httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                     httpContext.Response.ContentType = "application/json";
 
-                    response = new ApiValidationErrorResponse( ex.Message) { Errors = validationException.Errors };
+                    response = new ApiValidationErrorResponse(ex.Message)
+                    {
+                        Errors = validationException.Errors.Select(msg => new ApiValidationErrorResponse.ValidationError
+                        {
+                            Field = "", // Or specify which property failed
+                            Errors = new List<string> { msg } // wrap in a list
+                        })
+                    };
+
 
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;

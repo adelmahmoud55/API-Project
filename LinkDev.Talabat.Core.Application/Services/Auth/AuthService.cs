@@ -1,6 +1,9 @@
-﻿using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exceptions;
+using LinkDev.Talabat.Core.Application.Extensions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -17,9 +20,74 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
     // we cannot reach the singin manager service here in core, and we will not use it cuz it use the dotnet way 
     //when i sign in it will generate a token and send it to the client and save it in the cookies storage , but we will use jwt(JSON Web Token) package and we will find the sigin manager
-    public class AuthService(IOptions<JwtSettings>jwtSettings,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
+    public class AuthService(
+        IMapper mapper,
+        IOptions<JwtSettings>jwtSettings,
+        UserManager<ApplicationUser> userManager, 
+        SignInManager<ApplicationUser> signInManager) : IAuthService
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
+
+      
+
+        public async Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal)
+        {
+            var emaail = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
+
+            var user = await userManager.FindByEmailAsync(emaail!);
+
+            return new UserDto()
+            {
+                Id = user!.Id,
+                Email = user.Email!,
+                DisplayName = user.DisplayName,
+                Token = await GenerateTokenAsync(user) // this for authrization
+            };
+        }
+
+
+        public async Task<bool> EmailExists(string email)
+        {
+           return await userManager.FindByEmailAsync(email) is not null; 
+        }
+
+
+
+
+        public async Task<AddressDto?> GetUserAddress(ClaimsPrincipal claimsPrincipal)
+        {
+
+            var user = await userManager.FindUserWithAddress(claimsPrincipal!);
+
+            var address  =mapper.Map<AddressDto>(user!.Address);
+
+            return address;
+        }
+
+
+        public async Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal, AddressDto addressDto)
+        {
+            var upadatedAddress = mapper.Map<Address>(addressDto);
+
+            var user = await userManager.FindUserWithAddress(claimsPrincipal!);
+
+
+            if(user?.Address is not null)
+                upadatedAddress.Id = user.Address.Id; // this to update the address if the user already has address , otherwise it will create a new address
+
+            user!.Address = upadatedAddress; // this will update the address in the user object
+
+            var result = await userManager.UpdateAsync(user); // this will update the user in the database
+
+
+            if (!result.Succeeded) throw new BadRequestException(result.Errors.Select(error => error.Description).Aggregate((current, next) => $"{current}, {next}"));
+
+            return addressDto;
+
+        }
+
+
+
 
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
@@ -108,6 +176,12 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
         public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
+            //if (await EmailExists(model.Email))  //await a Task<T>, you get the T.
+            //    throw new BadRequestException("this eamil is already in use");
+
+
+
+
             var user = new ApplicationUser() // here id will be set to guit when it chain to the base class
             {
                 DisplayName = model.DisplayName,
@@ -139,6 +213,9 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
 
         }
+
+       
+
 
         private async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
@@ -184,5 +261,6 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             return token;
         }
 
+      
     }
 }

@@ -17,7 +17,7 @@ namespace LinkDev.Talabat.Infrastructure.BasketRepository
         public BasketRepository(IConnectionMultiplexer redis)
         {
             _database = redis.GetDatabase();
-            
+
         }
 
         public async Task<CustomerBasket?> GetAsync(string id)

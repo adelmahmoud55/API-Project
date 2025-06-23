@@ -1,6 +1,8 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Services;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
 {
-    public class AccountController(IServiceManager serviceManager ) : ApiControllerBase
+    public class AccountController(IServiceManager serviceManager) : ApiControllerBase
 
     {
 
@@ -28,6 +30,41 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
             var result = await serviceManager.AuthService.RegisterAsync(model);
             return Ok(result);
         }
-    }
-}
 
+
+
+        [Authorize]
+        [HttpGet] // Get: api/Account 
+        public async Task<ActionResult<UserDto>> GetCurrentUser()   // for frontend
+        {
+            var result = await serviceManager.AuthService.GetCurrentUser(User);
+            return Ok(result);
+        }
+
+
+        [Authorize]
+        [HttpGet("address")] // Get: api/Account/address
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            var result = await serviceManager.AuthService.GetUserAddress(User);
+            return Ok(result);
+        }
+
+
+        [Authorize]
+        [HttpPut("address")] // Put: api/Account/address
+        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressDto)
+        {
+            var result = await serviceManager.AuthService.UpdateUserAddress(User, addressDto);
+            return Ok(result);
+        }
+
+
+        [HttpGet("emailexists")] // Get: api/Account/emailexists?email=adel,mahmoud@gmail.com  (queaury paramter from string}
+        public async Task<ActionResult<bool>> CheckEmailExists(string email)
+        {
+            return Ok(await serviceManager.AuthService.EmailExists(email));
+        }
+    }
+
+}
