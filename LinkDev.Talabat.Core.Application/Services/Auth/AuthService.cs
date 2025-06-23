@@ -176,8 +176,8 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
         public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
-            //if(await EmailExists(model.Email))  //await a Task<T>, you get the T.
-            //    throw new  BadRequestException("this eamil is already in use");
+            //if (await EmailExists(model.Email))  //await a Task<T>, you get the T.
+            //    throw new BadRequestException("this eamil is already in use");
 
 
 
