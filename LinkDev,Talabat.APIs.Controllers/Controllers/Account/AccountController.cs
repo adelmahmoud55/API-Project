@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Services;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
 {
-    public class AccountController(IServiceManager serviceManager ) : ApiControllerBase
+    public class AccountController(IServiceManager serviceManager) : ApiControllerBase
 
     {
 
@@ -38,7 +39,16 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
         {
             var result = await serviceManager.AuthService.GetCurrentUser(User);
             return Ok(result);
-        }   
-    }
-}
+        }
 
+
+        [Authorize]
+        [HttpGet("address")] // Get: api/Account/address
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            var result = await serviceManager.AuthService.GetUserAddress(User);
+            return Ok(result);
+        }
+    }
+
+}

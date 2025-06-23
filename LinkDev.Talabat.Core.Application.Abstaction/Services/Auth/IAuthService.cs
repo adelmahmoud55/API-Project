@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Comman;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace LinkDev.Talabat.Core.Application.Abstaction.Services.Auth
         Task<UserDto> RegisterAsync(RegisterDto model);
 
         Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal);
+
+        Task<AddressDto> GetUserAddress(ClaimsPrincipal claimsPrincipal);
     }
 }

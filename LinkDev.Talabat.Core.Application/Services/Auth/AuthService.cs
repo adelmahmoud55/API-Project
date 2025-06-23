@@ -1,6 +1,9 @@
-﻿using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Auth;
+using LinkDev.Talabat.Core.Application.Abstaction.Models.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
 using LinkDev.Talabat.Core.Application.Exceptions;
+using LinkDev.Talabat.Core.Application.Extensions;
 using LinkDev.Talabat.Core.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -17,9 +20,15 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 {
     // we cannot reach the singin manager service here in core, and we will not use it cuz it use the dotnet way 
     //when i sign in it will generate a token and send it to the client and save it in the cookies storage , but we will use jwt(JSON Web Token) package and we will find the sigin manager
-    public class AuthService(IOptions<JwtSettings>jwtSettings,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
+    public class AuthService(
+        IMapper mapper,
+        IOptions<JwtSettings>jwtSettings,
+        UserManager<ApplicationUser> userManager, 
+        SignInManager<ApplicationUser> signInManager) : IAuthService
     {
         private readonly JwtSettings _jwtSettings = jwtSettings.Value;
+
+      
 
         public async Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal)
         {
@@ -34,6 +43,16 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
                 DisplayName = user.DisplayName,
                 Token = await GenerateTokenAsync(user) // this for authrization
             };
+        }
+
+        public async Task<AddressDto> GetUserAddress(ClaimsPrincipal claimsPrincipal)
+        {
+
+            var user = await userManager.FindUserWithAddress(claimsPrincipal!);
+
+            var address  =mapper.Map<AddressDto>(user!.Address);
+
+            return address;
         }
 
         public async Task<UserDto> LoginAsync(LoginDto model)
