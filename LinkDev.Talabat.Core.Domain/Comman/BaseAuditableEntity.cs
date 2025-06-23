@@ -7,19 +7,29 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.Core.Domain.Comman
 {
-    public abstract class BaseAuditableEntity<TKey>  : BaseEntity<TKey>
+    public interface IBaseAuditableEntity
+    {
+       public string CreatedBy { get; set; }
+       public   DateTime CreatedOn { get; set; }
+       public  string LastModifiedBy { get; set; }
+       public  DateTime LastModifiedOn { get; set; }
+    }
+
+
+
+    public abstract class BaseAuditableEntity<TKey>  : BaseEntity<TKey>, IBaseAuditableEntity
         where TKey : IEquatable<TKey> // When you compare objects in C#, the default equality comparison uses reference equality (i.e., it checks if both references point to the same object in memory). By implementing IEquatable<T>, you can define how instances of your entity should be compared for equality based on their value (like their ID).
 
     {
 
 
-        public string? CreatedBy { get; set; } = null!;
+        public string CreatedBy { get; set; } = null!;
 
-        public  DateTime? CreatedOn { get; set; } 
+        public  DateTime CreatedOn { get; set; } 
 
-        public  string? LastModifiedBy { get; set; } = null!;
+        public  string LastModifiedBy { get; set; } = null!;
 
-        public DateTime?LastModifiedOn { get; set; } 
+        public DateTime LastModifiedOn { get; set; } 
     }
 
 

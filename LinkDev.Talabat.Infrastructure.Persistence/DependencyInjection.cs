@@ -22,12 +22,17 @@ namespace LinkDev.Talabat.Infrastructure.Persistence
         {
             #region Store DbContext
 
-            services.AddDbContext<StoreDbContext>(optionsBuilder =>
+            services.AddDbContext<StoreDbContext>((serviceProvider,optionsBuilder )=>
              {
                  optionsBuilder
                  .UseLazyLoadingProxies()
-                 .UseSqlServer(configuration.GetConnectionString("StoreContext"));
+                 .UseSqlServer(configuration.GetConnectionString("StoreContext"))
+                 .AddInterceptors(serviceProvider.GetRequiredService<AuditInterceptor>()); // Register AuditInterceptor To DI Container.
              }/*,contextLifetime: ServiceLifetime.Scoped,optionsLifetime: ServiceLifetime.Scoped */);
+
+
+
+            services.AddScoped<AuditInterceptor>(); 
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
 
