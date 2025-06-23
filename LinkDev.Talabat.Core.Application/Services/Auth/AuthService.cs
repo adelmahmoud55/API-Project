@@ -45,6 +45,15 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             };
         }
 
+
+        public async Task<bool> EmailExists(string email)
+        {
+           return await userManager.FindByEmailAsync(email) is not null; 
+        }
+
+
+
+
         public async Task<AddressDto?> GetUserAddress(ClaimsPrincipal claimsPrincipal)
         {
 
@@ -167,6 +176,12 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
 
         public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
+            //if(await EmailExists(model.Email))  //await a Task<T>, you get the T.
+            //    throw new  BadRequestException("this eamil is already in use");
+
+
+
+
             var user = new ApplicationUser() // here id will be set to guit when it chain to the base class
             {
                 DisplayName = model.DisplayName,
@@ -246,5 +261,6 @@ namespace LinkDev.Talabat.Core.Application.Services.Auth
             return token;
         }
 
+      
     }
 }
