@@ -10,6 +10,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LinkDev.Talabat.Infrastructure.BasketRepository;
+using LinkDev.Talabat.Shared.Models;
+using LinkDev.Talabat.Infrastructure.Payment_Service;
 
 
 namespace LinkDev.Talabat.Infrastructure
@@ -27,6 +29,11 @@ namespace LinkDev.Talabat.Infrastructure
             });
 
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository.BasketRepository));
+
+            services.Configure<RedisSettings>(configuration.GetSection("RedisSettings"));
+
+         
+
             return services;
         }
     }

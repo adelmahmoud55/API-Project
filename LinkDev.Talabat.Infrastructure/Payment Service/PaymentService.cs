@@ -1,0 +1,83 @@
+﻿using LinkDev.Talabat.APIs.Controllers.Exceptions;
+using LinkDev.Talabat.Core.Domain.Contracts.Infrastructre;
+using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
+using LinkDev.Talabat.Core.Domain.Entities.Basket;
+using LinkDev.Talabat.Core.Domain.Entities.Orders;
+using LinkDev.Talabat.Core.Domain.Entities.Products;
+using LinkDev.Talabat.Shared.Models;
+using Microsoft.Extensions.Options;
+using Stripe;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Product = LinkDev.Talabat.Core.Domain.Entities.Products.Product;
+
+namespace LinkDev.Talabat.Infrastructure.Payment_Service
+{
+    internal class PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork,IOptions<RedisSettings> redisSettings) : IPaymentService
+    {
+
+        private readonly RedisSettings _redisSettings = redisSettings.Value;
+
+        public async  Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string basketId)
+        {
+            var basket = await basketRepository.GetAsync(basketId);
+
+            if (basket is null) throw new NotFoundException(nameof(CustomerBasket), basketId);
+
+           if(basket.DeliveryMethodId.HasValue)
+            {
+                var deliveryMethod = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAsync(basket.DeliveryMethodId.Value);
+                if (deliveryMethod is null) throw new NotFoundException(nameof(DeliveryMethod), basket.DeliveryMethodId.Value);
+                basket.ShippingPrice = deliveryMethod.Cost;
+            }
+
+            if(basket.Items.Count > 0)
+            {
+                var productRepo = unitOfWork.GetRepository<Product, int>();
+                foreach (var item in basket.Items)
+                {
+                    var product = await productRepo.GetAsync(item.Id);
+                    if (product is  null) throw new NotFoundException(nameof(Product), item.Id);
+                    if(item.price != product.Price)
+                        item.price = product.Price; // Update the price in the basket to match the product price
+
+                }
+            }
+
+            PaymentIntent? paymentIntent = null;
+            PaymentIntentService paymentIntentService = new PaymentIntentService();
+
+            if (string.IsNullOrEmpty(basket.PaymentIntentId)) // create new payment intent 
+            {
+                var options = new PaymentIntentCreateOptions()
+                {
+                    Amount = (long)(basket.Items.Sum(item => item.price * item.Quantity) + basket.ShippingPrice) * 100, // Convert to cents
+                    Currency = "USD",
+                    PaymentMethodTypes = new List<string>() { "card" },
+                };
+              
+                paymentIntent = await paymentIntentService.CreateAsync(options); // interact with Stripe API to create a new payment intent
+                basket.PaymentIntentId = paymentIntent.Id;
+                basket.ClientSecret = paymentIntent.ClientSecret;
+            }
+            else // update existing payment intent
+            {
+                var options = new PaymentIntentUpdateOptions()
+                {
+                    Amount = (long)(basket.Items.Sum(item => item.price * item.Quantity) + basket.ShippingPrice) * 100, // Convert to cents
+                };
+                 
+               await paymentIntentService.UpdateAsync(basket.PaymentIntentId, options); // interact with Stripe API to update the existing payment intent
+            }
+
+
+            await basketRepository.UpdateAsync(basket, TimeSpan.FromDays(_redisSettings.TimeToLiveInDays)); // Update the basket in Redis
+
+             return basket; // Return the updated basket with payment intent details
+             
+        }
+    }
+} 
