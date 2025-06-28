@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.Core.Domain.Entities.Basket;
+using LinkDev.Talabat.Shared.Models.Basket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace LinkDev.Talabat.Core.Domain.Contracts.Infrastructre
 {
     public interface IPaymentService
     {
-        Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string basketId);
+        Task<CustomerBasketDto> CreateOrUpdatePaymentIntent(string basketId);
     }
 }

@@ -30,9 +30,12 @@ namespace LinkDev.Talabat.Infrastructure
 
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository.BasketRepository));
 
-            services.Configure<RedisSettings>(configuration.GetSection("RedisSettings"));
+            services.AddScoped(typeof(IPaymentService), typeof(PaymentService));
 
-         
+
+            services.Configure<RedisSettings>(configuration.GetSection("RedisSettings"));
+            services.Configure<StripeSettings>(configuration.GetSection("StripeSettings"));
+
 
             return services;
         }

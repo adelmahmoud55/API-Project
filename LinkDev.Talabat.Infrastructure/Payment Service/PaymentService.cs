@@ -1,10 +1,12 @@
-﻿using LinkDev.Talabat.APIs.Controllers.Exceptions;
+﻿using AutoMapper;
+using LinkDev.Talabat.APIs.Controllers.Exceptions;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructre;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
 using LinkDev.Talabat.Shared.Models;
+using LinkDev.Talabat.Shared.Models.Basket;
 using Microsoft.Extensions.Options;
 using Stripe;
 using System;
@@ -16,13 +18,22 @@ using Product = LinkDev.Talabat.Core.Domain.Entities.Products.Product;
 
 namespace LinkDev.Talabat.Infrastructure.Payment_Service
 {
-    internal class PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork,IOptions<RedisSettings> redisSettings) : IPaymentService
+    internal class PaymentService(
+        IBasketRepository basketRepository, 
+        IUnitOfWork unitOfWork, IMapper mapper,
+        IOptions<RedisSettings> redisSettings,
+        IOptions<StripeSettings> stripeSettings
+        ) : IPaymentService
     {
 
         private readonly RedisSettings _redisSettings = redisSettings.Value;
+        private readonly StripeSettings _stripeSettings = stripeSettings.Value;
 
-        public async  Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string basketId)
+        public async  Task<CustomerBasketDto> CreateOrUpdatePaymentIntent(string basketId)
         {
+
+            StripeConfiguration.ApiKey = _stripeSettings.Secretkey; //key needed to interact with Stripe API
+
             var basket = await basketRepository.GetAsync(basketId);
 
             if (basket is null) throw new NotFoundException(nameof(CustomerBasket), basketId);
@@ -76,7 +87,7 @@ namespace LinkDev.Talabat.Infrastructure.Payment_Service
 
             await basketRepository.UpdateAsync(basket, TimeSpan.FromDays(_redisSettings.TimeToLiveInDays)); // Update the basket in Redis
 
-             return basket; // Return the updated basket with payment intent details
+             return mapper.Map<CustomerBasketDto>(basket); // Return the updated basket with payment intent details
              
         }
     }

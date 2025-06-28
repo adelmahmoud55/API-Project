@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using LinkDev.Talabat.Core.Application.Abstaction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstaction.Models.Comman;
 using LinkDev.Talabat.Core.Application.Abstaction.Models.Orders;
 using LinkDev.Talabat.Core.Application.Models.Products;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
 using LinkDev.Talabat.Core.Domain.Entities.Orders;
 using LinkDev.Talabat.Core.Domain.Entities.Products;
+using LinkDev.Talabat.Shared.Models.Basket;
 using System;
 using System.Collections.Generic;
 using System.Linq;

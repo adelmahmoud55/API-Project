@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.APIs.Controllers.Exceptions;
-using LinkDev.Talabat.Core.Application.Abstaction.Models.Basket;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Exceptions;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructre;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
+using LinkDev.Talabat.Shared.Models.Basket;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
