@@ -100,7 +100,7 @@ namespace LinkDev.Talabat.Core.Application.Services.Orders
                 Items = orderItems,
                 Subtotal = subtotal,
                 DeliveryMethod = deliveryMethod,
-                PaymentIntendId = basket.PaymentIntentId!
+                PaymentIntentId = basket.PaymentIntentId!
             };
 
             await orderRepo.AddAsync(orderToCreate);

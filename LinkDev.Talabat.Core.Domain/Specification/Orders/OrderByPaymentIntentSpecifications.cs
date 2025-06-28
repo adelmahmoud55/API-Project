@@ -10,7 +10,7 @@ namespace LinkDev.Talabat.Core.Domain.Specification.Orders
     public class OrderByPaymentIntentSpecifications : BaseSpecification<Order, int>
     {
         public OrderByPaymentIntentSpecifications(string paymentIntentId)
-            : base(order => order.PaymentIntendId == paymentIntentId)
+            : base(order => order.PaymentIntentId == paymentIntentId)
         {
             
         }

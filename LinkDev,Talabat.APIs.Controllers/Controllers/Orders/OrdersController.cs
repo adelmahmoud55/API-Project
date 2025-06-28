@@ -17,7 +17,7 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Orders
     {
         [HttpPost] // POST: api/orders
         public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderToCreateDto orderDto)
-        {
+         {
             var buyerEmail = User.FindFirstValue(ClaimTypes.Email);
 
             var result = await serviceManager.OrderService.CreateOrderAsync(buyerEmail!, orderDto);

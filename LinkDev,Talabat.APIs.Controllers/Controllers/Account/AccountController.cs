@@ -51,13 +51,13 @@ namespace LinkDev.Talabat.APIs.Controllers.Controllers.Account
         }
 
 
-        [Authorize]
-        [HttpPut("address")] // Put: api/Account/address
-        public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressDto)
-        {
-            var result = await serviceManager.AuthService.UpdateUserAddress(User, addressDto);
-            return Ok(result);
-        }
+            [Authorize]
+            [HttpPut("address")] // Put: api/Account/address
+            public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto addressDto)
+            {
+                var result = await serviceManager.AuthService.UpdateUserAddress(User, addressDto);
+                return Ok(result);
+            }
 
 
         [HttpGet("emailexists")] // Get: api/Account/emailexists?email=adel,mahmoud@gmail.com  (queaury paramter from string}
