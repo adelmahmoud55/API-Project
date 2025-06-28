@@ -95,6 +95,16 @@ namespace LinkDev.Talabat.APIs
             //webApplicationBuilder.Services.AddScoped(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
             webApplicationBuilder.Services.AddHttpContextAccessor(); // IHttpContextAccessor depend on another service , so u have to use this method , not only register the IHttpContextAccessor as above 
 
+            webApplicationBuilder.Services.AddCors(corsOptions =>
+              {
+                  corsOptions.AddPolicy("TalabatPolicy", policyBuilder =>
+                   {
+                       policyBuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins(webApplicationBuilder.Configuration["Urls:FrontBaseUrl"]!);
+                   });
+              });
+
+
+
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService)); // Register LoggedInUserService To DI Container.
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
@@ -143,6 +153,8 @@ namespace LinkDev.Talabat.APIs
             app.UseStaticFiles(); // to allow kestrel to serve the requests that ask for any static file like from wwwroot.
                                   // enable static file serving for the current request path {current : wwwroot path}
 
+
+            app.UseCors("TalabatPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
