@@ -40,12 +40,19 @@ namespace LinkDev.Talabat.Infrastructure.Persistence.Data.Interceptors
             var entries = dbContext.ChangeTracker.Entries<IBaseAuditableEntity>()
                            .Where(entity => entity.State is EntityState.Added or EntityState.Modified);
 
+
+
+
+
            
             foreach (var entry in entries) // any entity iherit from BaseAuditableEntity must be authinticated , {there is a user already } 
             {
                 //if (entry.Entity is Order or OrderItem)
                 //    _loggedInUserService.UserId = "";
 
+
+                if(string.IsNullOrEmpty(_loggedInUserService.UserId))
+                _loggedInUserService.UserId = "webhook"; // if the user is not authenticated, we set the UserId to "System" to indicate that the changes were made by the system
 
 
                 if (entry is { State: EntityState.Added or EntityState.Modified })
