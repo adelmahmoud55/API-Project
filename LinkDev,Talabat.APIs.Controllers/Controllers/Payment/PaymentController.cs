@@ -11,15 +11,27 @@ using System.Threading.Tasks;
 
 namespace LinkDev.Talabat.APIs.Controllers.Controllers.Payment
 {
-    [Authorize]
+ 
     public class PaymentController(IPaymentService paymentService) : ApiControllerBase
     {
-
+        [Authorize]
         [HttpPost("{basketId}")] // Post api/payment/{basketId}
         public async Task<ActionResult<CustomerBasketDto>> CreateOrUpdatePaymentIntent(string basketId)
         {
             var result = await paymentService.CreateOrUpdatePaymentIntent(basketId);
             return Ok(result);
         }
+
+        [HttpPost("webhook")] // Post api/payment/webhook
+        public async Task<IActionResult> WebHook()
+        {
+
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+            
+            await paymentService.UpdateOrderPaymentStatus(json, Request.Headers["Stripe-Signature"]!);
+
+            return Ok();
+        }
+
     }
 }
