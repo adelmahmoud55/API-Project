@@ -1,43 +1,11 @@
-[{
-        "Id": 0,
-        "Name": "Starbucks",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {
-        "Id": 0,
-        "Name": "Costa",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {
-        "Id": 0,
-        "Name": "Cilantro",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {
-        "Id": 0,
-        "Name": "TBS",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {
-        "Id": 0,
-        "Name": "On The Run",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {
-        "Id": 0,
-        "Name": "Caribou",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {
-        "Id": 0,
-        "Name": "Krispy Kreme",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    }
+[
+  { "Id": 0, "Name": "Apple", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Oppo", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Adidas", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Jaguar", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Samsung", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Sharp", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Sony", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Microsoft", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "EA Sports", "CreatedBy": "1", "LastModifiedBy": "1" }
 ]

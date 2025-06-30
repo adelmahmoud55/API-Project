@@ -1,42 +1,10 @@
 [
-    {   "Id": 0,
-        "Name": "Frappuccino",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {   "Id": 0,
-        "Name": "Latte",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {    "Id": 0,
-        "Name": "Mocha",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {    "Id": 0,
-        "Name": "Macchiato",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-         {"Id": 0,
-        "Name": "Matcha",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-        {"Id": 0,
-        "Name": "Cake",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-    {    "Id": 0,
-        "Name": "Donuts",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    },
-         {"Id": 0,
-        "Name": "Salad",
-        "CreatedBy": "1",
-        "LastModifiedBy": "1"
-    }
+  { "Id": 0, "Name": "Fashion", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Phones & Tablets", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Home & Furniture", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Appliances", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Televisions & Audio", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Computing", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Gaming", "CreatedBy": "1", "LastModifiedBy": "1" },
+  { "Id": 0, "Name": "Accessories", "CreatedBy": "1", "LastModifiedBy": "1" }
 ]

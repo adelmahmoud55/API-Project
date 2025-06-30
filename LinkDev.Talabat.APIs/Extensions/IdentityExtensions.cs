@@ -25,9 +25,9 @@ namespace LinkDev.Talabat.APIs.Extensions
             Services.AddIdentity<ApplicationUser, IdentityRole>((identityOptions) =>   //this overload to customize the identity options "change config"
             {
 
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+                identityOptions.SignIn.RequireConfirmedAccount = false;
+                identityOptions.SignIn.RequireConfirmedEmail = false;
+                identityOptions.SignIn.RequireConfirmedPhoneNumber = false;
 
 
                 // best practice to use regular expression to validate the password, in the Registeration page regiterDto
