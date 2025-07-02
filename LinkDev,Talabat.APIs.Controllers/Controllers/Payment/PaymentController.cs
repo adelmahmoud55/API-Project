@@ -1,4 +1,4 @@
-﻿using LinkDev.Talabat.Core.Domain.Contracts.Infrastructre;
+﻿using LinkDev.Talabat.Core.Application.Abstaction.Comman.Contracts.Infrastructure;
 using LinkDev.Talabat.Shared.Models.Basket;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;

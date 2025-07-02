@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LinkDev.Talabat.Core.Application.Abstaction\LinkDev.Talabat.Core.Application.Abstaction.csproj" />
-    <ProjectReference Include="..\LinkDev.Talabat.Core.Domain\LinkDev.Talabat.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

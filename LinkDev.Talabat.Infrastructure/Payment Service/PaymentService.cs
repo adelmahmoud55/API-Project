@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LinkDev.Talabat.APIs.Controllers.Exceptions;
+using LinkDev.Talabat.Core.Application.Abstaction.Comman.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Domain.Contracts.Infrastructre;
 using LinkDev.Talabat.Core.Domain.Contracts.Persistence;
 using LinkDev.Talabat.Core.Domain.Entities.Basket;
@@ -69,7 +70,7 @@ namespace LinkDev.Talabat.Infrastructure.Payment_Service
                 var options = new PaymentIntentCreateOptions()
                 {
                     Amount = (long)(basket.Items.Sum(item => item.price * item.Quantity) + basket.ShippingPrice) * 100, // Convert to cents
-                    Currency = "USD",
+                    Currency = "EGP",
                     PaymentMethodTypes = new List<string>() { "card" },
                 };
               
@@ -107,11 +108,11 @@ namespace LinkDev.Talabat.Infrastructure.Payment_Service
             switch (stripeEvent.Type)
             {
                 case "payment_intent.succeeded":
-                   order = await UpdatePaymentIntent(paymentIntent.Id, ispaid: true);
+                   order = await UpdateOrderStatus(paymentIntent.Id, ispaid: true);
                     logger.LogInformation("ORDER is Succeede with Payment Intent: {0}", paymentIntent.Id);
                     break;
                 case "payment_intent.payment_failed":
-                    order = await UpdatePaymentIntent(paymentIntent.Id, ispaid: false);
+                    order = await UpdateOrderStatus(paymentIntent.Id, ispaid: false);
                     logger.LogInformation("ORDER is not Succeede with Payment Intent: {0}", paymentIntent.Id);
 
                     break;
@@ -121,7 +122,7 @@ namespace LinkDev.Talabat.Infrastructure.Payment_Service
 
         }
 
-        private  async Task<Order> UpdatePaymentIntent(string  paymentIntentId , bool ispaid)
+        private  async Task<Order> UpdateOrderStatus(string  paymentIntentId , bool ispaid)
         {
             var orderRepo = unitOfWork.GetRepository<Order, int>();
 

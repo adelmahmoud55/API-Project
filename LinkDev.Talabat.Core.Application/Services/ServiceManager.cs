@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using LinkDev.Talabat.Core.Application.Abstaction.Comman.Contracts.Infrastructure;
 using LinkDev.Talabat.Core.Application.Abstaction.Services;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Auth;
-using LinkDev.Talabat.Core.Application.Abstaction.Services.Basket;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Orders;
 using LinkDev.Talabat.Core.Application.Abstaction.Services.Products;
 using LinkDev.Talabat.Core.Application.Services.Auth;
@@ -25,7 +25,7 @@ namespace LinkDev.Talabat.Core.Application.Services
 
         private readonly Lazy<IOrderService> _orderService;
         private readonly Lazy<IProductService> _productService;
-        private readonly Lazy<IBasketService> _basketService;
+        //private readonly Lazy<IBasketService> _basketService;
         private readonly Lazy<IAuthService> _authService;
 
         private readonly IUnitOfWork _unitOfWork; 
@@ -33,7 +33,7 @@ namespace LinkDev.Talabat.Core.Application.Services
         private readonly IConfiguration _configuration;
         
 
-        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration,Func<IOrderService> orderServiceFactory,Func<IBasketService> basketServiceFactory,Func<IAuthService> authServiceFactory)
+        public ServiceManager(IUnitOfWork unitOfWork, IMapper mapper,IConfiguration configuration,Func<IOrderService> orderServiceFactory,/*Func<IBasketService> basketServiceFactory,*/Func<IAuthService> authServiceFactory)
         {
             // m3 el product service mfesh di container ana pass el dep manaully
             // with auth and basket , We use factory method func 
@@ -50,14 +50,14 @@ namespace LinkDev.Talabat.Core.Application.Services
                                                 //Lambda expression: Automatically converted to a delegate by the compiler.
             _productService = new Lazy<IProductService>(() => new ProductService(_unitOfWork, _mapper)); //no need to register the ProductService in DI container because it is created here.
             _orderService = new Lazy<IOrderService>(orderServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);                                                                                   // hena bst5dm tre2t el factory methid , func , 3shan el basket service 3ndha dependencies msh mawgoda f el DI container
-            _basketService = new Lazy<IBasketService>(basketServiceFactory,LazyThreadSafetyMode.ExecutionAndPublication); //no need to register the BasketService in DI container because it is created here.
+       /*     _basketService = new Lazy<IBasketService>(basketServiceFactory,LazyThreadSafetyMode.ExecutionAndPublication);*/ //no need to register the BasketService in DI container because it is created here.
             _authService = new Lazy<IAuthService>(authServiceFactory, LazyThreadSafetyMode.ExecutionAndPublication);
         }//hena mst5demn delegate , built in 
 
 
         public IProductService ProductService => _productService.Value;
 
-        public IBasketService BasketService => _basketService.Value;
+        //public IBasketService BasketService => _basketService.Value;
 
         public IAuthService AuthService => _authService.Value;
 
