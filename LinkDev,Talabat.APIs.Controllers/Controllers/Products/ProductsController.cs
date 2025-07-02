@@ -1,4 +1,5 @@
 ﻿using LinkDev.Talabat.APIs.Controllers.Errors;
+using LinkDev.Talabat.APIs.Controllers.Filters;
 using LinkDev.Talabat.Core.Application.Abstaction.Models.Products;
 using LinkDev.Talabat.Core.Application.Abstaction.Services;
 using LinkDev_Talabat.APIs.Controllers.Controllers.Base;
@@ -15,7 +16,7 @@ namespace LinkDev_Talabat.APIs.Controllers.Controllers.Products
 {   
     public class ProductsController(IServiceManager serviceManager) : ApiControllerBase
     {
-        
+        [Cached(600)]
         [HttpGet] // Get: api/Products     // get endpoints takes parameters from query string only{?id=1 from url } , lw htst2blhom k paramter lw7do tmam , lw hts2bl k object lazm tst5dm [FromQuery] attribute,3shan t3rf ef enk htst2bl el object k query string
         public async Task<ActionResult> GetProducts([FromQuery]ProductSepcParams SepcParams) 
         {
