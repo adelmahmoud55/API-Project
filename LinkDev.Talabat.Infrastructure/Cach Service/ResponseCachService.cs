@@ -1,0 +1,37 @@
+﻿using LinkDev.Talabat.Core.Application.Abstaction.Comman.Contracts.Infrastructure;
+using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace LinkDev.Talabat.Infrastructure.Cach_Service
+{
+    internal class ResponseCachService(IConnectionMultiplexer redis) : IResponseCachService
+    {
+        private readonly IDatabase _database = redis.GetDatabase();
+
+        public async Task CachResponseAsync(string key, object response, TimeSpan timeToLive)
+        {
+            if (response is null) return;
+
+            var serializeOptions = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            
+            var serializedResponse = JsonSerializer.Serialize(response, serializeOptions);
+
+            await _database.StringSetAsync(key, serializedResponse, timeToLive);
+
+        }
+
+        public async Task<string?> GetCachedResponseAsync(string key)
+        {
+            var response =  await _database.StringGetAsync(key);
+
+            if(response.IsNull) return null;
+
+            return response;
+        }
+    }
+}
