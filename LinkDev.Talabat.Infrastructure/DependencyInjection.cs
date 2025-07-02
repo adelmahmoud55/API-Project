@@ -13,6 +13,7 @@ using LinkDev.Talabat.Infrastructure.BasketRepository;
 using LinkDev.Talabat.Shared.Models;
 using LinkDev.Talabat.Infrastructure.Payment_Service;
 using LinkDev.Talabat.Core.Application.Abstaction.Comman.Contracts.Infrastructure;
+using LinkDev.Talabat.Infrastructure.Cach_Service;
 
 
 namespace LinkDev.Talabat.Infrastructure
@@ -28,6 +29,9 @@ namespace LinkDev.Talabat.Infrastructure
                 var connectionMultiplexer = ConnectionMultiplexer.Connect(connectionString!);
                 return connectionMultiplexer;
             });
+
+            //must be sigleton 3shan tfdl m3 le user tol mhwa fat7 session w y consume ay end point bt7tag el cach , w kamn 3shan b depend 3la redis w hwa singltone brdo
+            services.AddSingleton(typeof(IResponseCachService), typeof(ResponseCachService));
 
             services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository.BasketRepository));
 
