@@ -57,6 +57,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client", "..\..\..\..\4th C
 		SlnRelativePath = "..\..\..\..\4th Computer\Graduation Project\Front-end\client\client\client\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkDev.Talabat.Dashboard", "..\..\..\..\4th Computer\Graduation Project\LinkDev.Talabat.Dashboard\LinkDev.Talabat.Dashboard.csproj", "{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{C3C22D80-024C-934E-2B28-887735712A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C22D80-024C-934E-2B28-887735712A7F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3C22D80-024C-934E-2B28-887735712A7F}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {FA5C4525-D290-4E72-BAC1-8078A2FC9F90}
 		{C23316CD-E7D2-4373-914B-84D58A58A964} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{C3C22D80-024C-934E-2B28-887735712A7F} = {CC0C9136-40EA-42A0-955B-65C0260956C0}
+		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6} = {36911109-2CF6-4D5D-9DC5-295F3764E262}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DFF02FF-40C0-4C0B-BA81-CD1B798C05CA}
