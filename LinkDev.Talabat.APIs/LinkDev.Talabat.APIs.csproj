@@ -26,4 +26,17 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <Private>false</Private>
+    </Content>
+    <Content Update="appsettings.Development.json">
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <Private>false</Private>
+    </Content>
+  </ItemGroup>
+
+
 </Project>

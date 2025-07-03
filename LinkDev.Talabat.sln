@@ -37,8 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{02EA68
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkDev.Talabat.Shared", "LinkDev.Talabat.Shared\LinkDev.Talabat.Shared.csproj", "{C23316CD-E7D2-4373-914B-84D58A58A964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkDev.Talabat.Dashboard", "..\..\..\..\4th Computer\Graduation Project\LinkDev.Talabat.Dashboard\LinkDev.Talabat.Dashboard.csproj", "{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}"
-EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "client", "..\..\..\..\4th Computer\Graduation Project\Front-end\client\client\client\", "{C3C22D80-024C-934E-2B28-887735712A7F}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.VirtualPath = "/localhost_51670"
@@ -97,10 +95,6 @@ Global
 		{C23316CD-E7D2-4373-914B-84D58A58A964}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C23316CD-E7D2-4373-914B-84D58A58A964}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C23316CD-E7D2-4373-914B-84D58A58A964}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C3C22D80-024C-934E-2B28-887735712A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3C22D80-024C-934E-2B28-887735712A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C22D80-024C-934E-2B28-887735712A7F}.Release|Any CPU.ActiveCfg = Debug|Any CPU
@@ -125,7 +119,6 @@ Global
 		{01D3EF34-D0A0-4980-AB24-E43DC7334F01} = {8394AE4A-CDB2-4435-B7D8-C84D7E08B2C8}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {FA5C4525-D290-4E72-BAC1-8078A2FC9F90}
 		{C23316CD-E7D2-4373-914B-84D58A58A964} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{2CE9EF71-E72B-7958-DDE3-750164BD4DF6} = {36911109-2CF6-4D5D-9DC5-295F3764E262}
 		{C3C22D80-024C-934E-2B28-887735712A7F} = {CC0C9136-40EA-42A0-955B-65C0260956C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
